@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import getLocalStorage from '../../utils/localStorage';
 
@@ -24,35 +24,31 @@ function Login() {
     });
   };
 
+  const isPasswordValid = /.{7,}/.test(loginData.password);
+  const isEmailValid = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(loginData.email);
+  const disabled = !(isPasswordValid && isEmailValid);
+
   return (
-    <div className="content-login">
-      <form
-        onSubmit={ (e) => handleSubmit(e) }
-      >
+    <div data-testid="content-login">
+      <form className="login-form" onSubmit={ handleSubmit }>
         <h1>LOGIN</h1>
         <input
           type="text"
           data-testid="email-input"
           placeholder="Email"
           name="email"
-          onChange={ (e) => handleChangeInput(e) }
+          onChange={ handleChangeInput }
         />
 
         <input
-          type="text"
+          type="password"
           data-testid="password-input"
           placeholder="Senha"
           name="password"
-          onChange={ (e) => handleChangeInput(e) }
+          onChange={ handleChangeInput }
         />
 
-        <button
-          data-testid="login-submit-btn"
-          disabled={
-            !/.{7,}/.test(loginData.password)
-            || !(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g).test(loginData.email)
-          }
-        >
+        <button data-testid="login-submit-btn" disabled={ disabled }>
           Enter
         </button>
       </form>
