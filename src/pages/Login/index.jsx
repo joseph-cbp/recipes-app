@@ -30,14 +30,14 @@ function Login() {
 
   return (
     <div data-testid="content-login">
-      <form className="login-form" onSubmit={handleSubmit}>
+      <form className="login-form" onSubmit={ handleSubmit }>
         <h1>LOGIN</h1>
         <input
           type="text"
           data-testid="email-input"
           placeholder="Email"
           name="email"
-          onChange={handleChangeInput}
+          onChange={ handleChangeInput }
         />
 
         <input
@@ -45,10 +45,10 @@ function Login() {
           data-testid="password-input"
           placeholder="Senha"
           name="password"
-          onChange={handleChangeInput}
+          onChange={ handleChangeInput }
         />
 
-        <button data-testid="login-submit-btn" disabled={disabled}>
+        <button data-testid="login-submit-btn" disabled={ disabled }>
           Enter
         </button>
       </form>
