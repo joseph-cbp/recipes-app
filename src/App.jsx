@@ -2,12 +2,14 @@ import React from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Route, Switch } from 'react-router-dom';
-import Home from './pages/Home';
+import Login from './pages/Login';
+import Recipes from './pages/Recipes';
 
 function App() {
   return (
     <Switch>
-      <Route exact path="/" component={ Home } />
+      <Route exact path="/" component={ Login } />
+      <Route path="/meals" component={ Recipes } />
     </Switch>
   );
 }
