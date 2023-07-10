@@ -8,7 +8,7 @@ describe('Componente de Login', () => {
     const { getByTestId } = render(
       <BrowserRouter>
         <Login />
-      </BrowserRouter>
+      </BrowserRouter>,
     );
     const form = getByTestId('content-login');
     expect(form).toBeInTheDocument();
@@ -18,7 +18,7 @@ describe('Componente de Login', () => {
     const { getByTestId } = render(
       <BrowserRouter>
         <Login />
-      </BrowserRouter>
+      </BrowserRouter>,
     );
     const emailInput = getByTestId('email-input');
     const passwordInput = getByTestId('password-input');
@@ -34,7 +34,7 @@ describe('Componente de Login', () => {
     const { getByTestId } = render(
       <BrowserRouter>
         <Login />
-      </BrowserRouter>
+      </BrowserRouter>,
     );
     const passwordInput = getByTestId('password-input');
     const submitButton = getByTestId('login-submit-btn');
@@ -47,7 +47,7 @@ describe('Componente de Login', () => {
     const { getByTestId } = render(
       <BrowserRouter>
         <Login />
-      </BrowserRouter>
+      </BrowserRouter>,
     );
     const emailInput = getByTestId('email-input');
     const submitButton = getByTestId('login-submit-btn');
@@ -60,7 +60,7 @@ describe('Componente de Login', () => {
     const { getByTestId } = render(
       <BrowserRouter>
         <Login />
-      </BrowserRouter>
+      </BrowserRouter>,
     );
     const form = getByTestId('content-login');
     const handleSubmit = jest.fn();

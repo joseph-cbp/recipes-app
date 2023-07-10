@@ -24,7 +24,7 @@ function Login() {
     });
   };
 
-  const isPasswordValid = loginData.password.length > 6;
+  const isPasswordValid = /.{7,}/.test(loginData.password);
   const isEmailValid = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(loginData.email);
   const disabled = !(isPasswordValid && isEmailValid);
 
