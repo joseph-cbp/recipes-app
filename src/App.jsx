@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Route, Switch } from 'react-router-dom';
 import Login from './pages/Login';
 import Layout from './pages/Layout';
-import Recipes from './pages/Recipes';
+import Meals from './pages/Meals';
 import Done from './pages/Done';
 import Drinks from './pages/Drinks';
 import Favorites from './pages/Favorites';
@@ -27,7 +27,7 @@ function App() {
             search
             pageTitle="Meals"
           >
-            <Recipes />
+            <Meals />
           </Layout>
         ) }
       />
