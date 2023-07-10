@@ -9,7 +9,8 @@ import Done from './pages/Done';
 import Drinks from './pages/Drinks';
 import Favorites from './pages/Favorites';
 import MealDetails from './pages/MealDetails';
-import DrinkDetails from './pages/DrinkDetails'
+import DrinkDetails from './pages/DrinkDetails';
+import Profile from './pages/Profile';
 
 function App() {
   return (
@@ -63,10 +64,19 @@ function App() {
         path="/favorite-recipes"
         render={ () => (
           <Layout
-            search
             pageTitle="Favorite Recipes"
           >
             <Favorites />
+          </Layout>
+        ) }
+      />
+      <Route
+        path="/profile"
+        render={ () => (
+          <Layout
+            pageTitle="Profile"
+          >
+            <Profile />
           </Layout>
         ) }
       />
