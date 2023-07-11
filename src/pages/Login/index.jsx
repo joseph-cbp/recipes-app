@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import getLocalStorage from '../../utils/localStorage';
 import './Login.css';
 import Logo from '../../components/Logo';
+import tomate from '../../images/tomate.png';
 
 function Login() {
   const [loginData, setLoginData] = useState({
@@ -34,6 +35,12 @@ function Login() {
     <div data-testid="content-login" className="login">
       <header className="login-header">
         <Logo full />
+        <div className="login-header-tomate">
+          <img
+            src={ tomate }
+            alt="tomate cortado com salada"
+          />
+        </div>
       </header>
       <form className="login-form" onSubmit={ handleSubmit }>
         <h1>LOGIN</h1>

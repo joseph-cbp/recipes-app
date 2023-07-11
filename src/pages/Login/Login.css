@@ -31,3 +31,32 @@
 .login-form .form-control {
   margin-bottom: 9px;
 }
+
+.login-header-tomate {
+  display: none;
+}
+
+@media screen and ( max-width : 360px ) {
+
+  .login-form {
+    margin: 130px auto 0;
+  }
+
+  .login-header {
+    height: auto;
+  }
+
+  .login-header > .logo {
+    margin-top: 80px;
+  }
+
+  .login-header-tomate {
+    display: block;
+    margin-bottom: -45%;
+  }
+
+  .login-header-tomate > img {
+    height: 100%;
+    width: 100%;
+  }
+}

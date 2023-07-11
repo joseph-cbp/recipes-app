@@ -7,7 +7,7 @@ import logoText from '../images/logo-text.png';
 
 export default function Logo({ full = false, text = false }) {
   return (
-    <div>
+    <div className="logo">
       <img src={ full ? logoFull : logo } alt="logo" />
       {text && <img src={ logoText } alt="recipes app" className="mx-3" />}
     </div>
