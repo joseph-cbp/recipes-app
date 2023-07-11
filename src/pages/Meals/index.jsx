@@ -1,6 +1,8 @@
 import { useSelector } from 'react-redux';
+import Footer from '../../components/Footer';
 
 const MAX_RECIPES = 12;
+
 function Meals() {
   const recipes = useSelector((state) => state.recipe.recipes.slice(0, MAX_RECIPES));
   return (
@@ -12,6 +14,7 @@ function Meals() {
           <img data-testid={ `${index}-card-img` } src={ strMealThumb } alt={ strMeal } />
         </div>
       ))}
+      <Footer />
     </div>
   );
 }

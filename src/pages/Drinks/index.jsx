@@ -1,4 +1,5 @@
 import { useSelector } from 'react-redux';
+import Footer from '../../components/Footer';
 
 const MAX_RECIPES = 12;
 
@@ -17,6 +18,7 @@ function Drinks() {
           />
         </div>
       ))}
+      <Footer />
     </div>
   );
 }
