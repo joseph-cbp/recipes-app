@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer';
 
-function Layout({ children, search, pageTitle, footer }) {
+function Layout({ children, search, pageTitle, footer = false }) {
   return (
     <>
       <Header search={ search } pageTitle={ pageTitle } />
