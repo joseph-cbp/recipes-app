@@ -4,13 +4,14 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Route, Switch } from 'react-router-dom';
 import Login from './pages/Login';
 import Layout from './pages/Layout';
-import Meals from './pages/Meals';
+// import Meals from './pages/Meals';
 import Done from './pages/Done';
-import Drinks from './pages/Drinks';
+// import Drinks from './pages/Drinks';
 import Favorites from './pages/Favorites';
 import MealDetails from './pages/MealDetails';
 import DrinkDetails from './pages/DrinkDetails';
 import Profile from './pages/Profile';
+import Recipes from './pages/Recipes/Recipes';
 
 function App() {
   return (
@@ -26,8 +27,9 @@ function App() {
           <Layout
             search
             pageTitle="Meals"
+            footer
           >
-            <Meals />
+            <Recipes recipeType="meal" />
           </Layout>
         ) }
       />
@@ -41,8 +43,9 @@ function App() {
           <Layout
             search
             pageTitle="Drinks"
+            footer
           >
-            <Drinks />
+            <Recipes recipeType="drink" />
           </Layout>
         ) }
       />
@@ -75,6 +78,7 @@ function App() {
         render={ () => (
           <Layout
             pageTitle="Profile"
+            footer
           >
             <Profile />
           </Layout>
