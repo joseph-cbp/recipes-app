@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import Header from '../../components/Header/Header';
 
-function Layout({ children, search, pageTitle }) {
+function Layout({ children, search=false, pageTitle }) {
   return (
     <>
       <Header search={ search } pageTitle={ pageTitle } />
@@ -14,6 +14,6 @@ export default Layout;
 
 Layout.propTypes = {
   children: PropTypes.node.isRequired,
-  search: PropTypes.bool.isRequired,
+  search: PropTypes.bool,
   pageTitle: PropTypes.string.isRequired,
 };
