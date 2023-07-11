@@ -26,6 +26,8 @@ function App() {
           <Layout
             search
             pageTitle="Meals"
+            filter="meal"
+            pageIcon="meal"
           >
             <Meals />
           </Layout>
@@ -41,6 +43,8 @@ function App() {
           <Layout
             search
             pageTitle="Drinks"
+            filter="drink"
+            pageIcon="drink"
           >
             <Drinks />
           </Layout>
@@ -55,6 +59,8 @@ function App() {
         render={ () => (
           <Layout
             pageTitle="Done Recipes"
+            pageIcon="done"
+            filter="all"
           >
             <Done />
           </Layout>
@@ -65,6 +71,8 @@ function App() {
         render={ () => (
           <Layout
             pageTitle="Favorite Recipes"
+            pageIcon="favorite"
+            filter="all"
           >
             <Favorites />
           </Layout>
@@ -75,6 +83,7 @@ function App() {
         render={ () => (
           <Layout
             pageTitle="Profile"
+            pageIcon="profile"
           >
             <Profile />
           </Layout>

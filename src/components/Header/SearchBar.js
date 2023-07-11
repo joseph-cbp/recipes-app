@@ -42,49 +42,52 @@ function SearchBar() {
 
   const { searchInput } = inputs;
   return (
-    <form onSubmit={ handleSubmit }>
+    <form onSubmit={ handleSubmit } className="header-search">
       <input
         data-testid="search-input"
         type="text"
         name="searchInput"
         value={ searchInput }
+        placeholder="Search"
         onChange={ handleChangeInput }
       />
-      <div>
-        <label>
-          <input
-            data-testid="ingredient-search-radio"
-            type="radio"
-            name="typeInput"
-            value="ingredient"
-            onChange={ handleChangeInput }
-          />
-          Ingredient
-        </label>
-        <label>
-          <input
-            data-testid="name-search-radio"
-            type="radio"
-            name="typeInput"
-            value="name"
-            onChange={ handleChangeInput }
-          />
-          Name
-        </label>
-        <label>
-          <input
-            data-testid="first-letter-search-radio"
-            type="radio"
-            name="typeInput"
-            value="firstLetter"
-            onChange={ handleChangeInput }
-          />
-          First letter
-        </label>
+      <div className="header-search-content">
+        <div>
+          <label>
+            <input
+              data-testid="ingredient-search-radio"
+              type="radio"
+              name="typeInput"
+              value="ingredient"
+              onChange={ handleChangeInput }
+            />
+            Ingredient
+          </label>
+          <label>
+            <input
+              data-testid="name-search-radio"
+              type="radio"
+              name="typeInput"
+              value="name"
+              onChange={ handleChangeInput }
+            />
+            Name
+          </label>
+          <label>
+            <input
+              data-testid="first-letter-search-radio"
+              type="radio"
+              name="typeInput"
+              value="firstLetter"
+              onChange={ handleChangeInput }
+            />
+            First letter
+          </label>
+        </div>
+        <button data-testid="exec-search-btn" type="submit" className="btn btn-primary">
+          SEARCH
+        </button>
       </div>
-      <button data-testid="exec-search-btn" type="submit">
-        SEARCH
-      </button>
     </form>
   );
 }
