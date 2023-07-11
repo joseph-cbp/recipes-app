@@ -24,3 +24,7 @@ body .btn-primary {
   --bs-btn-disabled-bg: #fcc436;
   --bs-btn-disabled-border-color: #fdb90d;
 }
+
+input[type='radio'] {
+  accent-color: #fcc436;
+}
