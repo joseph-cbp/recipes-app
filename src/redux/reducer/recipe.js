@@ -1,7 +1,8 @@
-import { SAVE_RECIPES } from '../action';
+import { SAVE_CATEGORIES, SAVE_RECIPES } from '../action';
 
 const initialState = {
   recipes: [],
+  categories: [],
 };
 
 const recipeReducer = (state = initialState, action) => {
@@ -10,6 +11,12 @@ const recipeReducer = (state = initialState, action) => {
     return {
       ...state,
       recipes: action.payload,
+    };
+  }
+  case SAVE_CATEGORIES: {
+    return {
+      ...state,
+      categories: action.payload,
     };
   }
   default:
