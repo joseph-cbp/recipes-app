@@ -4,9 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Route, Switch } from 'react-router-dom';
 import Login from './pages/Login';
 import Layout from './pages/Layout';
-// import Meals from './pages/Meals';
 import Done from './pages/Done';
-// import Drinks from './pages/Drinks';
 import Favorites from './pages/Favorites';
 import MealDetails from './pages/MealDetails';
 import DrinkDetails from './pages/DrinkDetails';
@@ -26,8 +24,10 @@ function App() {
         render={ () => (
           <Layout
             search
-            pageTitle="Meals"
             footer
+            pageTitle="Meals"
+            filter="meal"
+            pageIcon="meal"
           >
             <Recipes recipeType="meal" />
           </Layout>
@@ -44,6 +44,8 @@ function App() {
             search
             pageTitle="Drinks"
             footer
+            filter="drink"
+            pageIcon="drink"
           >
             <Recipes recipeType="drink" />
           </Layout>
@@ -58,6 +60,8 @@ function App() {
         render={ () => (
           <Layout
             pageTitle="Done Recipes"
+            pageIcon="done"
+            filter="all"
           >
             <Done />
           </Layout>
@@ -68,6 +72,8 @@ function App() {
         render={ () => (
           <Layout
             pageTitle="Favorite Recipes"
+            pageIcon="favorite"
+            filter="all"
           >
             <Favorites />
           </Layout>
@@ -77,8 +83,9 @@ function App() {
         path="/profile"
         render={ () => (
           <Layout
-            pageTitle="Profile"
             footer
+            pageTitle="Profile"
+            pageIcon="profile"
           >
             <Profile />
           </Layout>
