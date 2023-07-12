@@ -13,3 +13,11 @@ export const fetchSearch = async (search, type, recipeType) => {
 };
 
 export const fetchMealOrDrink = async (type) => fetchSearch('', 'name', type);
+
+export const fetchRecipeById = async (id, recipeType) => {
+  const urlMeals = 'https://www.themealdb.com/api/json/v1/1/lookup.php?i=';
+  const urlDrinks = 'https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=';
+  const url = recipeType === 'meals' ? urlMeals : urlDrinks;
+  const result = await fetch(`${url}${id}`).then((r) => r.json());
+  return result[recipeType][0];
+};

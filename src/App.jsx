@@ -10,6 +10,7 @@ import MealDetails from './pages/MealDetails';
 import DrinkDetails from './pages/DrinkDetails';
 import Profile from './pages/Profile';
 import Recipes from './pages/Recipes/Recipes';
+import RecipeProgress from './pages/RecipeProgress';
 
 function App() {
   return (
@@ -18,6 +19,10 @@ function App() {
         exact
         path="/"
         component={ Login }
+      />
+      <Route
+        path="/meals/:id/in-progress"
+        component={ RecipeProgress }
       />
       <Route
         path="/meals/:id"
@@ -36,6 +41,10 @@ function App() {
             <Recipes recipeType="meals" />
           </Layout>
         ) }
+      />
+      <Route
+        path="/drinks/:id/in-progress"
+        component={ RecipeProgress }
       />
       <Route
         path="/drinks/:id"
