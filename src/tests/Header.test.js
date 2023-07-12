@@ -3,133 +3,128 @@ import { screen, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import App from '../App';
 import renderWithRouterAndRedux from '../services/renderWithRouterAndRedux';
+import Header from '../components/Header/Header';
+
+const getSearchTopBtn = () => screen.getByTestId('search-top-btn');
+const querySearchtopBtn = () => screen.queryByTestId('search-top-btn');
+const getPageTitle = () => screen.getByTestId('page-title');
+const getProfileBtn = () => screen.getByTestId('profile-top-btn');
 
 describe('Testes para o Header', () => {
   it('Verifica os elementos presentes no componente na rota meals e se direciona para a rota profile ao clicar no icone do mesmo', () => {
-    const { history } = renderWithRouterAndRedux(<App /> , undefined, '/meals');
+    const { history } = renderWithRouterAndRedux(<App />, undefined, '/meals');
 
-    const pageTitle = screen.getByTestId('page-title');
-    expect(pageTitle).toHaveTextContent('Meals');
+    expect(getPageTitle()).toHaveTextContent('Meals');
+    expect(getSearchTopBtn()).toBeInTheDocument();
+    expect(getProfileBtn()).toBeInTheDocument();
 
-    const searchTopBtn = screen.getByTestId('search-top-btn');
-    expect(searchTopBtn).toBeInTheDocument();
-    
-    const profileBtn = screen.getByTestId('profile-top-btn');
-    expect(profileBtn).toBeInTheDocument();
-
-    act ( () => { 
-        userEvent.click(profileBtn);
+    act(() => {
+      userEvent.click(getProfileBtn());
     });
     expect(history.location.pathname).toBe('/profile');
-    expect(searchTopBtn).not.toBeInTheDocument();
+    expect(querySearchtopBtn()).not.toBeInTheDocument();
   });
 
   it('Verifica os elementos presentes no componente na rota drinks e se direciona para a rota profile ao clicar no icone do mesmo', () => {
-    const { history } = renderWithRouterAndRedux(<App /> , undefined, '/drinks');
+    const { history } = renderWithRouterAndRedux(<App />, undefined, '/drinks');
 
-    const pageTitle = screen.getByTestId('page-title');
-    expect(pageTitle).toHaveTextContent('Drinks');
+    expect(getPageTitle()).toHaveTextContent('Drinks');
+    expect(getSearchTopBtn()).toBeInTheDocument();
+    expect(getProfileBtn()).toBeInTheDocument();
 
-    const searchTopBtn = screen.getByTestId('search-top-btn');
-    expect(searchTopBtn).toBeInTheDocument();
-
-    const profileBtn = screen.getByTestId('profile-top-btn');
-    expect(profileBtn).toBeInTheDocument();
-
-    act ( () => { 
-        userEvent.click(profileBtn);
+    act(() => {
+      userEvent.click(getProfileBtn());
     });
     expect(history.location.pathname).toBe('/profile');
-    expect(searchTopBtn).not.toBeInTheDocument();
+    expect(querySearchtopBtn()).not.toBeInTheDocument();
   });
 
   it('Verifica os elementos presentes no componente na rota profile', () => {
-    renderWithRouterAndRedux(<App /> , undefined, '/profile');
+    renderWithRouterAndRedux(<App />, undefined, '/profile');
 
-    const pageTitle = screen.getByTestId('page-title');
-    expect(pageTitle).toHaveTextContent('Profile');
-
-    const profileBtn = screen.getByTestId('profile-top-btn');
-    expect(profileBtn).toBeInTheDocument();
-  });
-  
-  it('Verifica se o botão search exibe o input de pesquisa ao ser clicado atraves da rota meals', () => {
-    renderWithRouterAndRedux(<App /> , undefined, '/meals');
-
-    const searchTopBtn = screen.getByTestId('search-top-btn');
-    act ( () => { 
-        userEvent.click(searchTopBtn);
-    });
-
-    const searchInput = screen.getByTestId('search-input');
-
-    expect(searchTopBtn).toBeInTheDocument();
-    expect(searchInput).toBeInTheDocument();
+    expect(querySearchtopBtn()).not.toBeInTheDocument();
+    expect(getPageTitle()).toHaveTextContent('Profile');
+    expect(getProfileBtn()).toBeInTheDocument();
   });
 
-  it('Verifica se o botão search exibe o input de pesquisa ao ser clicado atraves da rota drinks', () => {
-    renderWithRouterAndRedux(<App /> , undefined, '/drinks');
+  // it('Verifica se o botão search exibe o input de pesquisa ao ser clicado atraves da rota meals', () => {
+  //   renderWithRouterAndRedux(<App />, undefined, '/meals');
 
-    const searchTopBtn = screen.getByTestId('search-top-btn');
-    act ( () => { 
-        userEvent.click(searchTopBtn);
-    });
+  //   const searchTopBtn = screen.getByTestId('search-top-btn');
+  //   act(() => {
+  //     userEvent.click(searchTopBtn);
+  //   });
 
-    const searchInput = screen.getByTestId('search-input');
+  //   const searchInput = screen.getByTestId('search-input');
 
-    expect(searchTopBtn).toBeInTheDocument();
-    expect(searchInput).toBeInTheDocument();
-  });
+  //   expect(searchTopBtn).toBeInTheDocument();
+  //   expect(searchInput).toBeInTheDocument();
+  // });
+
+  // it('Verifica se o botão search exibe o input de pesquisa ao ser clicado atraves da rota drinks', () => {
+  //   renderWithRouterAndRedux(<App />, undefined, '/drinks');
+
+  //   const searchTopBtn = screen.getByTestId('search-top-btn');
+  //   act(() => {
+  //     userEvent.click(searchTopBtn);
+  //   });
+
+  //   const searchInput = screen.getByTestId('search-input');
+
+  //   expect(searchTopBtn).toBeInTheDocument();
+  //   expect(searchInput).toBeInTheDocument();
+  // });
 
   it('Verifica se o botão search oculta o input de pesquisa ao ser clicado novamente através da rota meals', () => {
-    renderWithRouterAndRedux(<App /> , undefined, '/meals');
+    renderWithRouterAndRedux(<App />, undefined, '/meals');
 
-    const searchTopBtn = screen.getByTestId('search-top-btn');
-    act ( () => { 
-        userEvent.click(searchTopBtn);
+    act(() => {
+      userEvent.click(getSearchTopBtn());
     });
 
     const searchInput = screen.getByTestId('search-input');
     const ingredientSearchRadio = screen.getByTestId('ingredient-search-radio');
     const nameSearchRadio = screen.getByTestId('name-search-radio');
     const firstLetterSearchRadio = screen.getByTestId('first-letter-search-radio');
-    const execSearchBtn =screen.getByTestId('exec-search-btn');
+    const execSearchBtn = screen.getByTestId('exec-search-btn');
 
     expect(ingredientSearchRadio).toBeInTheDocument();
     expect(nameSearchRadio).toBeInTheDocument();
     expect(firstLetterSearchRadio).toBeInTheDocument();
     expect(execSearchBtn).toBeInTheDocument();
-    
-    act ( () => { 
-        userEvent.click(searchTopBtn);
+
+    act(() => {
+      userEvent.click(getSearchTopBtn());
     });
     expect(searchInput).not.toBeInTheDocument();
   });
 
   it('Verifica se o botão search oculta o input de pesquisa ao ser clicado novamente através da rota drinks', () => {
-    renderWithRouterAndRedux(<App /> , undefined, '/drinks');
+    renderWithRouterAndRedux(<App />, undefined, '/drinks');
 
-    const searchTopBtn = screen.getByTestId('search-top-btn');
-    act ( () => { 
-        userEvent.click(searchTopBtn);
+    act(() => {
+      userEvent.click(getSearchTopBtn());
     });
 
     const searchInput = screen.getByTestId('search-input');
     const ingredientSearchRadio = screen.getByTestId('ingredient-search-radio');
     const nameSearchRadio = screen.getByTestId('name-search-radio');
     const firstLetterSearchRadio = screen.getByTestId('first-letter-search-radio');
-    const execSearchBtn =screen.getByTestId('exec-search-btn');
+    const execSearchBtn = screen.getByTestId('exec-search-btn');
 
     expect(ingredientSearchRadio).toBeInTheDocument();
     expect(nameSearchRadio).toBeInTheDocument();
     expect(firstLetterSearchRadio).toBeInTheDocument();
     expect(execSearchBtn).toBeInTheDocument();
-    
-    act ( () => { 
-        userEvent.click(searchTopBtn);
+
+    act(() => {
+      userEvent.click(getSearchTopBtn());
     });
     expect(searchInput).not.toBeInTheDocument();
   });
+
+  it('Deveria renderizar o header sem a search bar', () => {
+    renderWithRouterAndRedux(<Header pageTitle="test" />);
+    expect(querySearchtopBtn()).not.toBeInTheDocument();
+  });
 });
-
-

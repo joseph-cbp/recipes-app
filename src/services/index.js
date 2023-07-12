@@ -8,6 +8,6 @@ export const fetchSearch = async (search, type, recipeType) => {
     firstLetter: 'search.php?f=',
   };
   const url = `${baseURL}${types[type]}${search}`;
-  const result = await fetch(url).then((r) => r.json());
+  const result = await fetch(url).then((r) => r.json())
   return result[recipeType];
 };
