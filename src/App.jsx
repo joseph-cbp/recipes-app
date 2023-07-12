@@ -20,6 +20,10 @@ function App() {
         component={ Login }
       />
       <Route
+        path="/meals/:id"
+        component={ MealDetails }
+      />
+      <Route
         path="/meals"
         render={ () => (
           <Layout
@@ -34,8 +38,8 @@ function App() {
         ) }
       />
       <Route
-        path="/meals/:id"
-        component={ MealDetails }
+        path="/drinks/:id"
+        component={ DrinkDetails }
       />
       <Route
         path="/drinks"
@@ -50,10 +54,6 @@ function App() {
             <Recipes recipeType="drinks" />
           </Layout>
         ) }
-      />
-      <Route
-        path="/drinks/:id"
-        component={ DrinkDetails }
       />
       <Route
         path="/done-recipes"

@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 import { fetchMealOrDrink } from '../../services';
 import { actionSaveRecipes } from '../../redux/action';
@@ -27,10 +28,11 @@ function Recipes({ recipeType }) {
             { idDrink, strDrink, strDrinkThumb, idMeal, strMeal, strMealThumb },
             index,
           ) => (
-            <div
+            <Link
               key={ idDrink || idMeal }
               data-testid={ `${index}-recipe-card` }
               className="recipe-card"
+              to={ `/${recipeType}/${idDrink || idMeal}` }
             >
               <img
                 data-testid={ `${index}-card-img` }
@@ -38,7 +40,7 @@ function Recipes({ recipeType }) {
                 alt={ strDrink || strMeal }
               />
               <h4 data-testid={ `${index}-card-name` }>{strDrink || strMeal}</h4>
-            </div>
+            </Link>
           ),
         )}
       </div>
