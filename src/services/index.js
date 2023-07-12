@@ -11,3 +11,5 @@ export const fetchSearch = async (search, type, recipeType) => {
   const result = await fetch(url).then((r) => r.json());
   return result[recipeType];
 };
+
+export const fetchMealOrDrink = async (type) => fetchSearch('', 'name', type);

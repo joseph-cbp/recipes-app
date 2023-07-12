@@ -4,13 +4,12 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Route, Switch } from 'react-router-dom';
 import Login from './pages/Login';
 import Layout from './pages/Layout';
-import Meals from './pages/Meals';
 import Done from './pages/Done';
-import Drinks from './pages/Drinks';
 import Favorites from './pages/Favorites';
 import MealDetails from './pages/MealDetails';
 import DrinkDetails from './pages/DrinkDetails';
 import Profile from './pages/Profile';
+import Recipes from './pages/Recipes/Recipes';
 
 function App() {
   return (
@@ -25,11 +24,12 @@ function App() {
         render={ () => (
           <Layout
             search
+            footer
             pageTitle="Meals"
             filter="meal"
             pageIcon="meal"
           >
-            <Meals />
+            <Recipes recipeType="meals" />
           </Layout>
         ) }
       />
@@ -43,10 +43,11 @@ function App() {
           <Layout
             search
             pageTitle="Drinks"
+            footer
             filter="drink"
             pageIcon="drink"
           >
-            <Drinks />
+            <Recipes recipeType="drinks" />
           </Layout>
         ) }
       />
@@ -82,6 +83,7 @@ function App() {
         path="/profile"
         render={ () => (
           <Layout
+            footer
             pageTitle="Profile"
             pageIcon="profile"
           >
