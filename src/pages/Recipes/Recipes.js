@@ -3,25 +3,44 @@ import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-import { fetchMealOrDrink } from '../../services';
-import { actionSaveRecipes } from '../../redux/action';
+import { fetchCategories, fetchMealOrDrink } from '../../services';
+import { actionSaveCategories, actionSaveRecipes } from '../../redux/action';
 
 const MAX_RECIPES = 12;
+const MAX_CATEGORIES = 5;
 
 function Recipes({ recipeType }) {
   const dispatch = useDispatch();
   const recipes = useSelector((state) => state.recipe.recipes.slice(0, MAX_RECIPES));
+  const categories = useSelector((state) => state.recipe
+    .categories.slice(0, MAX_CATEGORIES));
 
   useEffect(() => {
     const fetchRecipes = async () => {
-      const data = await fetchMealOrDrink(recipeType);
-      dispatch(actionSaveRecipes(data));
+      const menuData = await fetchMealOrDrink(recipeType);
+      const categoryData = await fetchCategories(recipeType);
+      console.log(categoryData);
+      dispatch(actionSaveRecipes(menuData));
+      dispatch(actionSaveCategories(categoryData));
     };
     fetchRecipes();
   }, [recipeType, dispatch]);
 
   return (
     <div className="recipes">
+      <div>
+        {
+          categories.map(({ strCategory }) => (
+            <button
+              data-testid={ `${strCategory}-category-filter` }
+              key={ strCategory }
+            >
+              {strCategory}
+
+            </button>
+          ))
+        }
+      </div>
       <div className="recipe-grid">
         {recipes.map(
           (
