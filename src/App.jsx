@@ -29,7 +29,7 @@ function App() {
             filter="meal"
             pageIcon="meal"
           >
-            <Recipes recipeType="meal" />
+            <Recipes recipeType="meals" />
           </Layout>
         ) }
       />
@@ -47,7 +47,7 @@ function App() {
             filter="drink"
             pageIcon="drink"
           >
-            <Recipes recipeType="drink" />
+            <Recipes recipeType="drinks" />
           </Layout>
         ) }
       />

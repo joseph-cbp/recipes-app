@@ -1,28 +1,48 @@
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import Drinks from '../Drinks';
-import Meals from '../Meals';
+
 import { fetchMealOrDrink } from '../../services';
 import { actionSaveRecipes } from '../../redux/action';
 
+const MAX_RECIPES = 12;
+
 function Recipes({ recipeType }) {
   const dispatch = useDispatch();
+  const recipes = useSelector((state) => state.recipe.recipes.slice(0, MAX_RECIPES));
 
   useEffect(() => {
-    const justAwait = async () => {
+    const fetchRecipes = async () => {
       const data = await fetchMealOrDrink(recipeType);
-      console.log(data);
       dispatch(actionSaveRecipes(data));
     };
-    justAwait();
-  }, [recipeType]);
+    fetchRecipes();
+  }, [recipeType, dispatch]);
 
   return (
-    <>
-      {recipeType === 'meal' ? <Meals /> : <Drinks />}
-      ;
-    </>
+    <div className="recipes">
+      <div className="recipe-grid">
+        {recipes.map(
+          (
+            { idDrink, strDrink, strDrinkThumb, idMeal, strMeal, strMealThumb },
+            index,
+          ) => (
+            <div
+              key={ idDrink || idMeal }
+              data-testid={ `${index}-recipe-card` }
+              className="recipe-card"
+            >
+              <img
+                data-testid={ `${index}-card-img` }
+                src={ strDrinkThumb || strMealThumb }
+                alt={ strDrink || strMeal }
+              />
+              <h4 data-testid={ `${index}-card-name` }>{strDrink || strMeal}</h4>
+            </div>
+          ),
+        )}
+      </div>
+    </div>
   );
 }
 
