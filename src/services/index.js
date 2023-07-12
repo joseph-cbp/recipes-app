@@ -7,6 +7,7 @@ export const fetchSearch = async (search, type, recipeType) => {
     name: 'search.php?s=',
     firstLetter: 'search.php?f=',
     categories: 'list.php?c=list',
+    categoryFilter: 'filter.php?c=',
   };
   const url = `${baseURL}${types[type]}${search}`;
   const result = await fetch(url).then((r) => r.json());
@@ -24,3 +25,9 @@ export const fetchRecipeById = async (id, recipeType) => {
 };
 
 export const fetchCategories = async (type) => fetchSearch('', 'categories', type);
+
+export const fetchFilterCategory = async (type, category) => fetchSearch(
+  category,
+  'categoryFilter',
+  type,
+);

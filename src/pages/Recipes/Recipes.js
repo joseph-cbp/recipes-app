@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-import { fetchCategories, fetchMealOrDrink } from '../../services';
+import { fetchCategories, fetchFilterCategory, fetchMealOrDrink } from '../../services';
 import { actionSaveCategories, actionSaveRecipes } from '../../redux/action';
 
 const MAX_RECIPES = 12;
@@ -26,6 +26,11 @@ function Recipes({ recipeType }) {
     fetchRecipes();
   }, [recipeType, dispatch]);
 
+  const handleCategoryClick = async (type, category) => {
+    const data = await fetchFilterCategory(type, category);
+    dispatch(actionSaveRecipes(data));
+  };
+
   return (
     <div className="recipes">
       <div>
@@ -34,6 +39,7 @@ function Recipes({ recipeType }) {
             <button
               data-testid={ `${strCategory}-category-filter` }
               key={ strCategory }
+              onClick={ () => handleCategoryClick(recipeType, strCategory) }
             >
               {strCategory}
 
