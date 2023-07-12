@@ -25,10 +25,10 @@ const icons = {
   chicken,
   breakfast,
   dessert,
-  ordinaryDrink,
+  'ordinary drink': ordinaryDrink,
   cocktail,
   shake,
-  otherDrink,
+  'other / unknown': otherDrink,
   cocoa,
   fastFood,
   done,
@@ -41,12 +41,35 @@ const alts = {
   drink: 'Ícone de copo de bebida',
 };
 
-export default function Icon({ name, border = false, large = false }) {
+export default function Icon({ name, border = false, large = false, onClick,
+  testid,
+  buttonType = true }) {
   const classNames = [border ? 'icon-border' : '', large ? 'large' : ''].join(' ');
   return (
-    <div className={ classNames }>
-      <img src={ icons[name] } alt={ alts[name] } className={ large ? 'large' : '' } />
-    </div>
+    (buttonType
+      ? (
+        <button
+          className={ classNames }
+          onClick={ onClick }
+          data-testid={ testid }
+        >
+          <img
+            src={ icons[name.toLowerCase()] }
+            alt={ alts[name.toLowerCase()] }
+            className={ large ? 'large' : '' }
+          />
+        </button>
+      ) : (
+        <div
+          className={ classNames }
+        >
+          <img
+            src={ icons[name.toLowerCase()] }
+            alt={ alts[name.toLowerCase()] }
+            className={ large ? 'large' : '' }
+          />
+        </div>
+      ))
   );
 }
 
@@ -71,4 +94,8 @@ Icon.propTypes = {
   ]).isRequired,
   border: PropTypes.bool,
   large: PropTypes.bool,
+  onClick: PropTypes.func.isRequired,
+  testid: PropTypes.string.isRequired,
+  buttonType: PropTypes.bool,
+
 };

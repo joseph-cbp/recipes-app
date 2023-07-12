@@ -8,31 +8,7 @@ import profileIcon from '../../images/profileIcon.svg';
 import searchIcon from '../../images/searchIcon.svg';
 import Icon from '../Icon';
 
-const filters = {
-  meal: [
-    { name: 'All', icon: 'meal' },
-    { name: 'Beef', icon: 'beef' },
-    { name: 'Goat', icon: 'goat' },
-    { name: 'Chicken', icon: 'chicken' },
-    { name: 'Breakfast', icon: 'breakfast' },
-    { name: 'Dessert', icon: 'dessert' },
-  ],
-  drink: [
-    { name: 'All', icon: 'drink' },
-    { name: 'Ordinary Drink', icon: 'ordinaryDrink' },
-    { name: 'Cocktail', icon: 'cocktail' },
-    { name: 'Shake', icon: 'shake' },
-    { name: 'Other/ Unknown', icon: 'otherDrink' },
-    { name: 'Cocoa', icon: 'cocoa' },
-  ],
-  all: [
-    { name: 'All', icon: 'fastFood' },
-    { name: 'Food', icon: 'meal' },
-    { name: 'Drinks', icon: 'drink' },
-  ],
-};
-
-function Header({ search = false, pageTitle, pageIcon, filter = '' }) {
+function Header({ search = false, pageTitle, pageIcon }) {
   const [searchBar, setSearchBar] = useState(false);
   return (
     <header>
@@ -58,20 +34,13 @@ function Header({ search = false, pageTitle, pageIcon, filter = '' }) {
         </div>
       </nav>
       <div className="header-title">
-        <Icon name={ pageIcon } />
+        <Icon
+          name={ pageIcon }
+          buttonType={ false }
+        />
         <h1 data-testid="page-title">{pageTitle}</h1>
       </div>
       {searchBar && <SearchBar />}
-      {filter && (
-        <div className="header-filters">
-          {filters[filter].map(({ name, icon }) => (
-            <div key={ name }>
-              <Icon name={ icon } border large={ filter === 'all' } />
-              <span>{name}</span>
-            </div>
-          ))}
-        </div>
-      )}
     </header>
   );
 }
@@ -82,5 +51,4 @@ Header.propTypes = {
   search: PropTypes.bool.isRequired,
   pageTitle: PropTypes.string.isRequired,
   pageIcon: PropTypes.oneOf(['meal', 'drink', 'done', 'favorite', 'profile']).isRequired,
-  filter: PropTypes.oneOf(['meal', 'drink', 'all']),
 };
