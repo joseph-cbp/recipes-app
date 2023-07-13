@@ -4,6 +4,7 @@ import Icon from '../../components/Icon';
 import { getDoneRecipes } from '../../utils/localStorage';
 import './Done.css';
 import Share from '../../components/Header/Share';
+import { Link } from 'react-router-dom';
 
 const filters = [
   { name: 'All', icon: 'fastfood', testid: 'filter-by-all-btn', type: 'all' },
@@ -19,11 +20,7 @@ function Done() {
     setRecipes(getDoneRecipes());
   }, []);
 
-  const filteredRecipes = recipes.filter(({ type }) => (
-    filter === 'all'
-      ? true
-      : type === filter
-  ));
+  const filteredRecipes = recipes.filter(({ type }) => (filter === 'all' ? true : type === filter));
 
   return (
     <div>
@@ -52,11 +49,22 @@ function Done() {
             index,
           ) => (
             <div key={ name } className="done-card">
-              <img data-testid={ `${index}-horizontal-image` } src={ image } alt={ name } />
+              <Link to={ `/${type}s/${id}` }>
+                <img
+                  data-testid={ `${index}-horizontal-image` }
+                  src={ image }
+                  alt={ name }
+                />
+              </Link>
               <div className="done-card-content">
                 <div>
                   <div className="done-card-title">
-                    <h4 data-testid={ `${index}-horizontal-name` }>{name}</h4>
+                    <Link
+                      to={ `/${type}s/${id}` }
+                      data-testid={ `${index}-horizontal-name` }
+                    >
+                      {name}
+                    </Link>
                     <Share
                       data-testid={ `${index}-horizontal-share-btn` }
                       id={ id }

@@ -14,7 +14,7 @@
   flex: 1;
 }
 
-.done-card > img {
+.done-card > a > img {
   height: 100%;
   object-fit: cover;
   width: 100%;
@@ -25,6 +25,11 @@
   flex-direction: column;
   justify-content: space-between;
   padding: 18px 18px 14px;
+}
+
+.done-card-content > div:first-child {
+  display: flex;
+  flex-direction: column;
 }
 
 .done-card-title {
@@ -38,11 +43,12 @@
   display: flex;
 }
 
-.done-card-title > h4 {
+.done-card-title > a {
   color: #1a1b1c;
   font-size: 12px;
   font-weight: 700;
   margin: 0;
+  text-decoration: none;
 }
 
 .done-card-subtitle {
