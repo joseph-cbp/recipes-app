@@ -1,5 +1,7 @@
 .progress-header {
   height: 165px;
+  position: relative;
+
 }
 
 .progress-header > img {
@@ -7,12 +9,42 @@
   object-fit: cover;
   position: absolute;
   width: 100%;
+  z-index: -1;
+
+}
+
+.progress-header button {
+  background: none;
+  border: none;
+}
+
+.progress-header > h2 {
+  color: white;
+  font-size: 20px;
+  font-weight: 900;
+  letter-spacing: 2.1px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.progress-header-content > div {
+  align-items: center;
+  color: #fcc436;
+  display: flex;
+  gap: 16px;
+}
+
+.progress-header-content {
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+  padding: 16px;
 }
 
 .progress-content {
+  margin-top: 16px;
   padding: 14px;
 }
-
 
 .progress-content h3 {
   color: #1a1b1c;
@@ -22,17 +54,11 @@
 }
 
 .progress-content button {
-  background: #fcc436;
-  border: none;
-  border-radius: 5px;
-  color: white;
   font-size: 14px;
   font-weight: 700;
   letter-spacing: 0.42px;
   padding: 10px;
-  text-align: center;
   text-transform: uppercase;
-  width: 100%;
 }
 
 .ingredient-input {

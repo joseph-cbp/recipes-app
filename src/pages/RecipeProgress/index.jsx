@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { fetchRecipeById } from '../../services';
 import './RecipeProgress.css';
-import getLocalStorage from '../../utils/localStorage';
+import getLocalStorage, { saveRecipe } from '../../utils/localStorage';
+
+import RecipeProgressHeader from './RecipeProgressHeader';
 
 const getIngredients = (recipe) => Object.entries(recipe)
   .filter(([key, value]) => key.includes('Ingredient') && value)
@@ -18,15 +20,21 @@ const mapProperties = (recipe) => {
     strInstructions,
     idMeal,
     idDrink,
+    strArea,
+    strAlcoholic,
+    strTags,
   } = recipe;
-
   return {
     id: idMeal || idDrink,
     image: strMealThumb || strDrinkThumb,
-    title: strMeal || strDrink,
+    name: strMeal || strDrink,
     category: strCategory,
     instructions: strInstructions,
     ingredients: getIngredients(recipe),
+    type: strMeal ? 'meals' : 'drinks',
+    nationality: strArea || '',
+    alcoholicOrNot: strAlcoholic || '',
+    tags: strTags ? strTags.split(',') : [],
   };
 };
 
@@ -34,6 +42,7 @@ export default function RecipeProgress() {
   const location = useLocation();
   const [recipe, setRecipe] = useState({});
   const [ingredientsDone, setIngredientsDone] = useState([]);
+  const history = useHistory();
 
   useEffect(() => {
     const [, recipeType, recipeId] = location.pathname.split('/');
@@ -43,7 +52,7 @@ export default function RecipeProgress() {
     };
     fetchRecipe();
     const recipeIngredients = getLocalStorage.getItem('inProgressRecipes') || {};
-    setIngredientsDone((recipeIngredients[recipeId]) || []);
+    setIngredientsDone(recipeIngredients[recipeId] || []);
   }, [location]);
 
   useEffect(() => {
@@ -60,43 +69,50 @@ export default function RecipeProgress() {
     });
   };
 
-  const { image, title, category, instructions, ingredients } = recipe;
-  console.log(ingredientsDone);
+  const handleFinishRecipe = () => {
+    saveRecipe(recipe);
+    history.push('/done-recipes');
+  };
+
+  if (!recipe.id) return <div>Loading...</div>;
+
+  const { instructions, ingredients } = recipe;
+  const isIngredientsAllDone = ingredientsDone.length === ingredients.length
+    && ingredientsDone.every((ingredient) => ingredient);
   return (
     <div>
-      <header className="progress-header">
-        <img data-testid="recipe-photo" src={ image } alt={ title } />
-        <span data-testid="recipe-category">{category}</span>
-        <span data-testid="recipe-category">{category}</span>
-        <button data-testid="share-btn">Share</button>
-        <button data-testid="favorite-btn">Favorite</button>
-      </header>
+      <RecipeProgressHeader recipe={ recipe } />
       <div className="progress-content">
         <div className="progress-ingredients">
           <h3>Ingredients</h3>
           <ul className="progress-ingredients">
-            {ingredients
-              && ingredients.map((ingredient, index) => (
-                <li key={ index } data-testid={ `${index}-ingredient-step` } className="">
-                  <label>
-                    <input
-                      type="checkbox"
-                      className="ingredient-input"
-                      onChange={ (event) => handleIngredientChange(event, index) }
-                      checked={ Boolean(ingredientsDone[index]) }
-                    />
-                    {ingredient}
-                  </label>
-                </li>
-              ))}
+            {ingredients.map((ingredient, index) => (
+              <li key={ index } data-testid={ `${index}-ingredient-step` } className="">
+                <label>
+                  <input
+                    type="checkbox"
+                    className="ingredient-input"
+                    onChange={ (event) => handleIngredientChange(event, index) }
+                    checked={ Boolean(ingredientsDone[index]) }
+                  />
+                  {ingredient}
+                </label>
+              </li>
+            ))}
           </ul>
         </div>
-
-        <h3 data-testid="recipe-title">{title}</h3>
+        <h3>Instructions</h3>
         <p data-testid="instructions" className="progress-instructions">
           {instructions}
         </p>
-        <button data-testid="finish-recipe-btn">Finish recipe</button>
+        <button
+          data-testid="finish-recipe-btn"
+          disabled={ !isIngredientsAllDone }
+          className="btn btn-primary"
+          onClick={ handleFinishRecipe }
+        >
+          Finish recipe
+        </button>
       </div>
     </div>
   );

@@ -45,30 +45,17 @@ export default function Icon({ name, border = false, large = false }) {
   const classNames = [border ? 'icon-border' : '', large ? 'large' : ''].join(' ');
   return (
     <div className={ classNames }>
-      <img src={ icons[name] } alt={ alts[name] } className={ large ? 'large' : '' } />
+      <img
+        src={ icons[name] || meal }
+        alt={ alts[name] }
+        className={ large ? 'large' : '' }
+      />
     </div>
   );
 }
 
 Icon.propTypes = {
-  name: PropTypes.oneOf([
-    'meal',
-    'drink',
-    'beef',
-    'goat',
-    'chicken',
-    'breakfast',
-    'dessert',
-    'ordinaryDrink',
-    'cocktail',
-    'shake',
-    'otherDrink',
-    'cocoa',
-    'fastFood',
-    'done',
-    'favorite',
-    'profile',
-  ]).isRequired,
+  name: PropTypes.string.isRequired,
   border: PropTypes.bool,
   large: PropTypes.bool,
 };
