@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import Icon from '../../components/Icon';
 import { getDoneRecipes } from '../../utils/localStorage';
 import './Done.css';
 import Share from '../../components/Header/Share';
-import { Link } from 'react-router-dom';
 
 const filters = [
   { name: 'All', icon: 'fastfood', testid: 'filter-by-all-btn', type: 'all' },
@@ -20,7 +20,8 @@ function Done() {
     setRecipes(getDoneRecipes());
   }, []);
 
-  const filteredRecipes = recipes.filter(({ type }) => (filter === 'all' ? true : type === filter));
+  const filteredRecipes = recipes.filter(({ type }) => (filter === 'all' ? true
+    : type === filter));
 
   return (
     <div>
