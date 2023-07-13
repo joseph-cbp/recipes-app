@@ -6,8 +6,7 @@ import Login from './pages/Login';
 import Layout from './pages/Layout';
 import Done from './pages/Done';
 import Favorites from './pages/Favorites';
-import MealDetails from './pages/MealDetails';
-import DrinkDetails from './pages/DrinkDetails';
+import RecipeDetails from './pages/RecipeDetails/index';
 import Profile from './pages/Profile';
 import Recipes from './pages/Recipes/Recipes';
 import RecipeProgress from './pages/RecipeProgress';
@@ -26,7 +25,7 @@ function App() {
       />
       <Route
         path="/meals/:id"
-        component={ MealDetails }
+        component={ RecipeDetails }
       />
       <Route
         path="/meals"
@@ -48,7 +47,7 @@ function App() {
       />
       <Route
         path="/drinks/:id"
-        component={ DrinkDetails }
+        component={ RecipeDetails }
       />
       <Route
         path="/drinks"

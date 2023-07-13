@@ -36,7 +36,6 @@ function Header({ search = false, pageTitle, pageIcon }) {
       <div className="header-title">
         <Icon
           name={ pageIcon }
-          buttonType={ false }
         />
         <h1 data-testid="page-title">{pageTitle}</h1>
       </div>

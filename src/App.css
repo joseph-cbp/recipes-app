@@ -1,3 +1,7 @@
+.invisible {
+  display: none;
+}
+
 .recipe-grid {
   display: grid;
   gap: 8px;

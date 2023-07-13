@@ -28,3 +28,8 @@ body .btn-primary {
 input[type='radio'] {
   accent-color: #fcc436;
 }
+
+button {
+  background: none;
+  border: none;
+}

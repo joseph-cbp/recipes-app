@@ -13,8 +13,8 @@ const MAX_CATEGORIES = 5;
 function Recipes({ recipeType }) {
   const dispatch = useDispatch();
   const recipes = useSelector((state) => state.recipe.recipes.slice(0, MAX_RECIPES));
-  const categories = useSelector((state) => state.recipe
-    .categories.slice(0, MAX_CATEGORIES));
+  const categories = useSelector((state) => state
+    .recipe.categories.slice(0, MAX_CATEGORIES));
   const [categoryState, setCategoryState] = useState('all');
 
   useEffect(() => {
@@ -47,41 +47,20 @@ function Recipes({ recipeType }) {
   return (
     <div className="recipes">
       <div className="header-filters">
-        {/* {
-          categories.map(({ strCategory }, index) => (
-            <button
-              data-testid={ `${strCategory}-category-filter` }
-              key={ strCategory }
-              onClick={ () => handleCategoryClick(recipeType, strCategory) }
-            >
-              {strCategory}
-
-            </button>
-          ))
-        } */}
-        <div>
-          <Icon
-            name="drink"
-            border
-            onClick={ () => toAllRecipes() }
-            testid="All-category-filter"
-          />
+        <button data-testid="All-category-filter" onClick={ () => toAllRecipes() }>
+          <Icon name="drink" border />
           <span>All</span>
-        </div>
-        {
-          categories.map(({ strCategory }) => (
-            <div key={ strCategory }>
-              <Icon
-                name={ strCategory }
-                border
-                onClick={ () => handleCategoryClick(recipeType, strCategory) }
-                testid={ `${strCategory}-category-filter` }
-              />
-              <span>{strCategory}</span>
-            </div>
-          ))
-        }
-
+        </button>
+        {categories.map(({ strCategory }) => (
+          <button
+            key={ strCategory }
+            data-testid={ `${strCategory}-category-filter` }
+            onClick={ () => handleCategoryClick(recipeType, strCategory) }
+          >
+            <Icon name={ strCategory } border />
+            <span>{strCategory}</span>
+          </button>
+        ))}
       </div>
       <div className="recipe-grid">
         {recipes.map(

@@ -41,61 +41,22 @@ const alts = {
   drink: 'Ícone de copo de bebida',
 };
 
-export default function Icon({ name, border = false, large = false, onClick,
-  testid,
-  buttonType = true }) {
+export default function Icon({ name, border = false, large = false }) {
   const classNames = [border ? 'icon-border' : '', large ? 'large' : ''].join(' ');
+
   return (
-    (buttonType
-      ? (
-        <button
-          className={ classNames }
-          onClick={ onClick }
-          data-testid={ testid }
-        >
-          <img
-            src={ icons[name.toLowerCase()] }
-            alt={ alts[name.toLowerCase()] }
-            className={ large ? 'large' : '' }
-          />
-        </button>
-      ) : (
-        <div
-          className={ classNames }
-        >
-          <img
-            src={ icons[name.toLowerCase()] }
-            alt={ alts[name.toLowerCase()] }
-            className={ large ? 'large' : '' }
-          />
-        </div>
-      ))
+    <div className={ classNames }>
+      <img
+        src={ icons[name.toLowerCase()] || meal }
+        alt={ alts[name.toLowerCase()] }
+        className={ large ? 'large' : '' }
+      />
+    </div>
   );
 }
 
 Icon.propTypes = {
-  name: PropTypes.oneOf([
-    'meal',
-    'drink',
-    'beef',
-    'goat',
-    'chicken',
-    'breakfast',
-    'dessert',
-    'ordinaryDrink',
-    'cocktail',
-    'shake',
-    'otherDrink',
-    'cocoa',
-    'fastFood',
-    'done',
-    'favorite',
-    'profile',
-  ]).isRequired,
+  name: PropTypes.string.isRequired,
   border: PropTypes.bool,
   large: PropTypes.bool,
-  onClick: PropTypes.func.isRequired,
-  testid: PropTypes.string.isRequired,
-  buttonType: PropTypes.bool,
-
 };
