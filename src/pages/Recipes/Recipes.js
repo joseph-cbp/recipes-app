@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
@@ -13,48 +13,57 @@ const MAX_CATEGORIES = 5;
 function Recipes({ recipeType }) {
   const dispatch = useDispatch();
   const recipes = useSelector((state) => state.recipe.recipes.slice(0, MAX_RECIPES));
-  const categories = useSelector((state) => state
-    .recipe.categories.slice(0, MAX_CATEGORIES));
+  const categories = useSelector((state) => state.recipe.categories.slice(
+    0,
+    MAX_CATEGORIES,
+  ));
   const [categoryState, setCategoryState] = useState('all');
 
   useEffect(() => {
-    const fetchRecipes = async () => {
-      const menuData = await fetchMealOrDrink(recipeType);
-      const categoryData = await fetchCategories(recipeType);
-      console.log(categoryData);
-      dispatch(actionSaveRecipes(menuData));
-      dispatch(actionSaveCategories(categoryData));
+    const fetchData = async () => {
+      try {
+        const menuData = await fetchMealOrDrink(recipeType);
+        const categoryData = await fetchCategories(recipeType);
+        dispatch(actionSaveRecipes(menuData));
+        dispatch(actionSaveCategories(categoryData));
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
     };
-    fetchRecipes();
-  }, [recipeType, dispatch]);
 
-  const toAllRecipes = async () => {
-    const menuData = await fetchMealOrDrink(recipeType);
-    dispatch(actionSaveRecipes(menuData));
-    setCategoryState('all');
-  };
+    fetchData();
+  }, [recipeType, dispatch]);
 
   const handleCategoryClick = async (type, category) => {
     if (categoryState !== category) {
-      const data = await fetchFilterCategory(type, category);
-      dispatch(actionSaveRecipes(data));
-      setCategoryState(category);
+      try {
+        const data = await fetchFilterCategory(type, category);
+        dispatch(actionSaveRecipes(data));
+        setCategoryState(category);
+      } catch (error) {
+        console.error('Error fetching filtered data:', error);
+      }
     } else {
-      await toAllRecipes();
+      const menuData = await fetchMealOrDrink(recipeType);
+      dispatch(actionSaveRecipes(menuData));
+      setCategoryState('all');
     }
   };
 
   return (
     <div className="recipes">
       <div className="header-filters">
-        <button data-testid="All-category-filter" onClick={ () => toAllRecipes() }>
+        <button
+          data-testid="All-category-filter"
+          onClick={ () => handleCategoryClick(recipeType, 'all') }
+        >
           <Icon name="drink" border />
           <span>All</span>
         </button>
-        {categories.map(({ strCategory }) => (
+        {categories.map(({ strCategory }, index) => (
           <button
             key={ strCategory }
-            data-testid={ `${strCategory}-category-filter` }
+            data-testid={ `Category-${index + 1}-category-filter` }
             onClick={ () => handleCategoryClick(recipeType, strCategory) }
           >
             <Icon name={ strCategory } border />
@@ -88,8 +97,8 @@ function Recipes({ recipeType }) {
   );
 }
 
-export default Recipes;
-
 Recipes.propTypes = {
   recipeType: PropTypes.string.isRequired,
 };
+
+export default Recipes;
