@@ -1,26 +1,28 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, act } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import configureStore from 'redux-mock-store';
+import { createStore, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
 import Recipes from '../pages/Recipes/Recipes';
-
-import { fetchCategories, fetchFilterCategory, fetchMealOrDrink } from '../services';
-import { actionSaveCategories, actionSaveRecipes } from '../redux/action';
+import rootReducer from '../redux/reducer';
+import { fetchMealOrDrink, fetchCategories, fetchFilterCategory } from '../services';
+import { actionSaveRecipes, actionSaveCategories } from '../redux/action';
 
 jest.mock('../services');
+jest.mock('../redux/action');
 
-const mockStore = configureStore([]);
+const mockState = {
+  recipe: {
+    recipes: [],
+    categories: [],
+  },
+};
+
+const mockStore = createStore(rootReducer, mockState, applyMiddleware(thunk));
 
 describe('Componente Recipes', () => {
-  let store;
-
   beforeEach(() => {
-    store = mockStore({
-      recipe: {
-        recipes: [],
-        categories: [],
-      },
-    });
+    jest.clearAllMocks();
   });
 
   test('renderiza os cards de receitas', async () => {
@@ -37,13 +39,15 @@ describe('Componente Recipes', () => {
       },
     ];
 
-    fetchMealOrDrink.mockResolvedValueOnce(recipes);
+    fetchMealOrDrink.mockResolvedValue(recipes);
 
-    render(
-      <Provider store={ store }>
-        <Recipes recipeType="drinks" />
-      </Provider>,
-    );
+    await act(async () => {
+      render(
+        <Provider store={ mockStore }>
+          <Recipes recipeType="drinks" />
+        </Provider>,
+      );
+    });
 
     expect(fetchMealOrDrink).toHaveBeenCalledWith('drinks');
     expect(actionSaveRecipes).toHaveBeenCalledWith(recipes);
@@ -58,13 +62,15 @@ describe('Componente Recipes', () => {
       { strCategory: 'Shot' },
     ];
 
-    fetchCategories.mockResolvedValueOnce(categories);
+    fetchCategories.mockResolvedValue(categories);
 
-    render(
-      <Provider store={ store }>
-        <Recipes recipeType="drinks" />
-      </Provider>,
-    );
+    await act(async () => {
+      render(
+        <Provider store={ mockStore }>
+          <Recipes recipeType="drinks" />
+        </Provider>,
+      );
+    });
 
     expect(fetchCategories).toHaveBeenCalledWith('drinks');
     expect(actionSaveCategories).toHaveBeenCalledWith(categories);
@@ -88,16 +94,20 @@ describe('Componente Recipes', () => {
       },
     ];
 
-    fetchFilterCategory.mockResolvedValueOnce(filteredRecipes);
+    fetchFilterCategory.mockResolvedValue(filteredRecipes);
 
-    render(
-      <Provider store={ store }>
-        <Recipes recipeType="drinks" />
-      </Provider>,
-    );
+    await act(async () => {
+      render(
+        <Provider store={ mockStore }>
+          <Recipes recipeType="drinks" />
+        </Provider>,
+      );
+    });
 
     const categoryFilterButton = screen.getByTestId('Category-1-category-filter');
-    categoryFilterButton.click();
+    await act(async () => {
+      categoryFilterButton.click();
+    });
 
     expect(fetchFilterCategory).toHaveBeenCalledWith('drinks', category);
     expect(actionSaveRecipes).toHaveBeenCalledWith(filteredRecipes);
@@ -117,16 +127,20 @@ describe('Componente Recipes', () => {
       },
     ];
 
-    fetchMealOrDrink.mockResolvedValueOnce(allRecipes);
+    fetchMealOrDrink.mockResolvedValue(allRecipes);
 
-    render(
-      <Provider store={ store }>
-        <Recipes recipeType="drinks" />
-      </Provider>,
-    );
+    await act(async () => {
+      render(
+        <Provider store={ mockStore }>
+          <Recipes recipeType="drinks" />
+        </Provider>,
+      );
+    });
 
     const allCategoryFilterButton = screen.getByTestId('All-category-filter');
-    allCategoryFilterButton.click();
+    await act(async () => {
+      allCategoryFilterButton.click();
+    });
 
     expect(fetchMealOrDrink).toHaveBeenCalledWith('drinks');
     expect(actionSaveRecipes).toHaveBeenCalledWith(allRecipes);
