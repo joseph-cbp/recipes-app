@@ -1,170 +1,165 @@
-import { render, screen, waitFor, fireEvent } from '@testing-library/react';
-import { BrowserRouter as Router } from 'react-router-dom';
+import React from 'react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { MemoryRouter, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import Recipes from '../pages/Recipes/Recipes';
-import { fetchCategories, fetchFilterCategory, fetchMealOrDrink } from '../services';
 import store from '../redux/store';
+import {
+  fetchCategories,
+  fetchFilterCategory,
+  fetchMealOrDrink,
+} from '../services';
 
 jest.mock('../services');
 
-describe('Recipes', () => {
-  const recipeType = 'drinks';
-
+describe('Página de Receitas', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    jest.resetAllMocks();
   });
 
-  test('renderiza corretamente as categorias', async () => {
+  it('deve renderizar a página de receitas com categorias e receitas', async () => {
+    const category1 = 'Ordinary Drink';
+    const category2 = 'Cocktail';
+    const category3 = 'Milk / Float / Shake';
+    const category4 = 'Other/Unknown';
+    const category5 = 'Cocoa';
+
     const categories = [
-      { strCategory: 'Ordinary Drink' },
-      { strCategory: 'Cocktail' },
-      { strCategory: 'Shake' },
-      { strCategory: 'Other / Unknown' },
-      { strCategory: 'Cocoa' },
-      { strCategory: 'Shot' },
-      { strCategory: 'Coffee / Tea' },
-      { strCategory: 'Homemade Liqueur' },
-      { strCategory: 'Punch / Party Drink' },
-      { strCategory: 'Beer' },
-      { strCategory: 'Soft Drink' },
+      { strCategory: category1 },
+      { strCategory: category2 },
+      { strCategory: category3 },
+      { strCategory: category4 },
+      { strCategory: category5 },
+    ];
+
+    const recipes = [
+      {
+        idDrink: '11007',
+        strDrink: 'Margarita',
+        strDrinkThumb: 'https://www.thecocktaildb.com/images/media/drink/5noda61589575158.jpg',
+      },
+      {
+        idDrink: '11728',
+        strDrink: 'Martini',
+        strDrinkThumb: 'https://www.thecocktaildb.com/images/media/drink/71t8581504353095.jpg',
+      },
+      {
+        idDrink: '11000',
+        strDrink: 'Mojito',
+        strDrinkThumb: 'https://www.thecocktaildb.com/images/media/drink/metwgh1606770327.jpg',
+      },
     ];
 
     fetchCategories.mockResolvedValue(categories);
-
-    render(
-      <Provider store={ store }>
-        <Router>
-          <Recipes recipeType={ recipeType } />
-        </Router>
-      </Provider>,
-    );
-
-    await waitFor(() => {
-      const categoryButtons = screen.getAllByTestId(/-category-filter$/);
-      expect(categoryButtons).toHaveLength(categories.length);
-      expect(categoryButtons[0]).toHaveTextContent('Ordinary Drink');
-    });
-  });
-
-  test('exibe todas as receitas ao clicar no botão "All"', async () => {
-    const recipes = [
-      {
-        idDrink: '15997',
-        strDrink: 'GG',
-        strCategory: 'Ordinary Drink',
-        strAlcoholic: 'Optional alcohol',
-        strGlass: 'Collins Glass',
-        strInstructions: 'Pour the Galliano liqueur over ice...',
-        strDrinkThumb: 'https://www.thecocktaildb.com/images/media/drink/vyxwut1468875960.jpg',
-      },
-      {
-        idDrink: '17222',
-        strDrink: 'A1',
-        strCategory: 'Ordinary Drink',
-        strAlcoholic: 'Alcoholic',
-        strGlass: 'Cocktail glass',
-        strInstructions: 'Pour all ingredients into a cocktail shaker...',
-        strDrinkThumb: 'https://www.thecocktaildb.com/images/media/drink/2x8thr1504816928.jpg',
-      },
-    ];
-
     fetchMealOrDrink.mockResolvedValue(recipes);
 
     render(
-      <Provider store={ store }>
-        <Router>
-          <Recipes recipeType={ recipeType } />
-        </Router>
-      </Provider>,
+      <MemoryRouter initialEntries={ ['/recipes/drinks'] }>
+        <Provider store={ store }>
+          <Route path="/recipes/:recipeType">
+            <Recipes />
+          </Route>
+        </Provider>
+      </MemoryRouter>,
     );
 
+    // Verificar se as categorias estão sendo exibidas corretamente
     await waitFor(() => {
-      const allButton = screen.getByTestId('All-category-filter');
-      fireEvent.click(allButton);
+      categories.forEach((category) => {
+        expect(screen.getByText(category.strCategory)).toBeInTheDocument();
+      });
     });
 
+    // Verificar se as receitas estão sendo exibidas corretamente
     await waitFor(() => {
-      const recipeCards = screen.getAllByTestId(/-recipe-card$/);
-      expect(recipeCards).toHaveLength(recipes.length);
+      recipes.forEach((recipe) => {
+        expect(screen.getByText(recipe.strDrink)).toBeInTheDocument();
+      });
     });
   });
 
-  test('filtra as receitas por categoria', async () => {
+  it('deve filtrar as receitas por categoria quando um botão de categoria é clicado', async () => {
+    const category1 = 'Ordinary Drink';
+    const category2 = 'Cocktail';
+    const category3 = 'Milk / Float / Shake';
+    const category4 = 'Other/Unknown';
+    const category5 = 'Cocoa';
+
     const categories = [
-      { strCategory: 'Ordinary Drink' },
-      { strCategory: 'Cocktail' },
+      { strCategory: category1 },
+      { strCategory: category2 },
+      { strCategory: category3 },
+      { strCategory: category4 },
+      { strCategory: category5 },
     ];
 
-    const filteredRecipes = [
+    const recipes = [
       {
-        idDrink: '15997',
-        strDrink: 'GG',
-        strCategory: 'Ordinary Drink',
-        strAlcoholic: 'Optional alcohol',
-        strGlass: 'Collins Glass',
-        strInstructions: 'Pour the Galliano liqueur over ice...',
-        strDrinkThumb: 'https://www.thecocktaildb.com/images/media/drink/vyxwut1468875960.jpg',
+        idDrink: '11007',
+        strDrink: 'Margarita',
+        strDrinkThumb: 'https://www.thecocktaildb.com/images/media/drink/5noda61589575158.jpg',
+      },
+      {
+        idDrink: '11728',
+        strDrink: 'Martini',
+        strDrinkThumb: 'https://www.thecocktaildb.com/images/media/drink/71t8581504353095.jpg',
+      },
+      {
+        idDrink: '11000',
+        strDrink: 'Mojito',
+        strDrinkThumb: 'https://www.thecocktaildb.com/images/media/drink/metwgh1606770327.jpg',
       },
     ];
 
     fetchCategories.mockResolvedValue(categories);
-    fetchFilterCategory.mockResolvedValue(filteredRecipes);
+    fetchMealOrDrink.mockResolvedValue(recipes);
+    fetchFilterCategory.mockImplementation(async (type, category) => {
+      if (category === category2) {
+        return [recipes[1]];
+      } if (category === category3) {
+        return [recipes[2]];
+      }
+      return recipes;
+    });
 
     render(
-      <Provider store={ store }>
-        <Router>
-          <Recipes recipeType={ recipeType } />
-        </Router>
-      </Provider>,
+      <MemoryRouter initialEntries={ ['/recipes/drinks'] }>
+        <Provider store={ store }>
+          <Route path="/recipes/:recipeType">
+            <Recipes />
+          </Route>
+        </Provider>
+      </MemoryRouter>,
     );
 
+    // Clicar no botão "Cocktail" para filtrar as receitas
+    fireEvent.click(screen.getByTestId(`${category2}-category-filter`));
+
+    // Verificar se apenas a receita "Martini" está sendo exibida
     await waitFor(() => {
-      const categoryButtons = screen.getAllByTestId(/-category-filter$/);
-      const cocktailButton = categoryButtons.find((button) => button.textContent === 'Cocktail');
-      fireEvent.click(cocktailButton);
+      expect(screen.queryByText('Margarita')).not.toBeInTheDocument();
+      expect(screen.getByText('Martini')).toBeInTheDocument();
+      expect(screen.queryByText('Mojito')).not.toBeInTheDocument();
     });
 
+    // Clicar no botão "Milk / Float / Shake" para filtrar as receitas
+    fireEvent.click(screen.getByTestId(`${category3}-category-filter`));
+
+    // Verificar se apenas a receita "Mojito" está sendo exibida
     await waitFor(() => {
-      const recipeCards = screen.getAllByTestId(/-recipe-card$/);
-      expect(recipeCards).toHaveLength(filteredRecipes.length);
-    });
-  });
-
-  test('chama corretamente a função handleCategoryClick', async () => {
-    const categories = [
-      { strCategory: 'Ordinary Drink' },
-      { strCategory: 'Cocktail' },
-    ];
-
-    const filteredRecipes = [
-      {
-        idDrink: '17222',
-        strDrink: 'A1',
-        strCategory: 'Cocktail',
-        strAlcoholic: 'Alcoholic',
-        strGlass: 'Cocktail glass',
-        strInstructions: 'Pour all ingredients into a cocktail shaker...',
-        strDrinkThumb: 'https://www.thecocktaildb.com/images/media/drink/2x8thr1504816928.jpg',
-      },
-    ];
-
-    fetchCategories.mockResolvedValue(categories);
-    fetchFilterCategory.mockResolvedValue(filteredRecipes);
-
-    render(
-      <Provider store={ store }>
-        <Router>
-          <Recipes recipeType={ recipeType } />
-        </Router>
-      </Provider>,
-    );
-
-    await waitFor(() => {
-      const categoryButtons = screen.getAllByTestId(/-category-filter$/);
-      const cocktailButton = categoryButtons.find((button) => button.textContent === 'Cocktail');
-      fireEvent.click(cocktailButton);
+      expect(screen.queryByText('Margarita')).not.toBeInTheDocument();
+      expect(screen.queryByText('Martini')).not.toBeInTheDocument();
+      expect(screen.getByText('Mojito')).toBeInTheDocument();
     });
 
-    expect(fetchFilterCategory).toHaveBeenCalledWith('Cocktail', recipeType);
+    // Clicar no botão "All" para mostrar todas as receitas novamente
+    fireEvent.click(screen.getByTestId('All-category-filter'));
+
+    // Verificar se todas as receitas estão sendo exibidas novamente
+    await waitFor(() => {
+      recipes.forEach((recipe) => {
+        expect(screen.getByText(recipe.strDrink)).toBeInTheDocument();
+      });
+    });
   });
 });
