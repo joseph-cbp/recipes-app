@@ -12,7 +12,7 @@ import cocktail from '../images/icon-cocktail.png';
 import shake from '../images/icon-shake.png';
 import otherDrink from '../images/icon-other-drink.png';
 import cocoa from '../images/icon-cocoa.png';
-import fastFood from '../images/icon-fast-food.png';
+import fastfood from '../images/icon-fast-food.png';
 import done from '../images/icon-done.png';
 import favorite from '../images/icon-favorite.png';
 import profile from '../images/icon-profile.png';
@@ -30,7 +30,7 @@ const icons = {
   shake,
   'other / unknown': otherDrink,
   cocoa,
-  fastFood,
+  fastfood,
   done,
   favorite,
   profile,
