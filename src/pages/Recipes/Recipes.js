@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-
-import { fetchCategories, fetchFilterCategory, fetchMealOrDrink } from '../../services';
+import {
+  fetchCategories,
+  fetchFilterCategory,
+  fetchMealOrDrink,
+} from '../../services';
 import { actionSaveCategories, actionSaveRecipes } from '../../redux/action';
-import Icon from '../../components/Icon';
 
 const MAX_RECIPES = 12;
 const MAX_CATEGORIES = 5;
@@ -20,79 +21,49 @@ function Recipes({ recipeType }) {
   const [categoryState, setCategoryState] = useState('all');
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const menuData = await fetchMealOrDrink(recipeType);
-        const categoryData = await fetchCategories(recipeType);
-        dispatch(actionSaveRecipes(menuData));
-        dispatch(actionSaveCategories(categoryData));
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
+    const getCategories = async () => {
+      const fetchedCategories = await fetchCategories();
+      dispatch(actionSaveCategories(fetchedCategories.slice(0, MAX_CATEGORIES)));
     };
 
-    fetchData();
-  }, [recipeType, dispatch]);
+    getCategories();
+  }, [dispatch]);
 
-  const handleCategoryClick = async (type, category) => {
-    if (categoryState !== category) {
-      try {
-        const data = await fetchFilterCategory(type, category);
-        dispatch(actionSaveRecipes(data));
-        setCategoryState(category);
-      } catch (error) {
-        console.error('Error fetching filtered data:', error);
-      }
-    } else {
-      const menuData = await fetchMealOrDrink(recipeType);
-      dispatch(actionSaveRecipes(menuData));
-      setCategoryState('all');
-    }
+  useEffect(() => {
+    const getRecipes = async () => {
+      const fetchedRecipes = await fetchMealOrDrink(recipeType);
+      dispatch(actionSaveRecipes(fetchedRecipes.slice(0, MAX_RECIPES)));
+    };
+
+    getRecipes();
+  }, [dispatch, recipeType]);
+
+  const handleCategoryClick = async (category) => {
+    setCategoryState(category);
+    const filteredRecipes = await fetchFilterCategory(category, recipeType);
+    dispatch(actionSaveRecipes(filteredRecipes.slice(0, MAX_RECIPES)));
   };
 
   return (
-    <div className="recipes">
-      <div className="header-filters">
+    <div>
+      {/* Renderização das categorias */}
+      {categories.map((category) => (
         <button
-          data-testid="All-category-filter"
-          onClick={ () => handleCategoryClick(recipeType, 'all') }
+          key={ category.strCategory }
+          data-testid={ `${category.strCategory}-category-filter` }
+          onClick={ () => handleCategoryClick(category.strCategory) }
         >
-          <Icon name="drink" border />
-          <span>All</span>
+          {category.strCategory}
         </button>
-        {categories.map(({ strCategory }, index) => (
-          <button
-            key={ strCategory }
-            data-testid={ `Category-${index + 1}-category-filter` }
-            onClick={ () => handleCategoryClick(recipeType, strCategory) }
-          >
-            <Icon name={ strCategory } border />
-            <span>{strCategory}</span>
-          </button>
-        ))}
-      </div>
-      <div className="recipe-grid">
-        {recipes.map(
-          (
-            { idDrink, strDrink, strDrinkThumb, idMeal, strMeal, strMealThumb },
-            index,
-          ) => (
-            <Link
-              key={ idDrink || idMeal }
-              data-testid={ `${index}-recipe-card` }
-              className="recipe-card"
-              to={ `/${recipeType}/${idDrink || idMeal}` }
-            >
-              <img
-                data-testid={ `${index}-card-img` }
-                src={ strDrinkThumb || strMealThumb }
-                alt={ strDrink || strMeal }
-              />
-              <h4 data-testid={ `${index}-card-name` }>{strDrink || strMeal}</h4>
-            </Link>
-          ),
-        )}
-      </div>
+      ))}
+
+      {/* Renderização das receitas */}
+      {recipes.map((recipe) => (
+        <div key={ recipe.idDrink } data-testid={ `${recipe.idDrink}-recipe-card` }>
+          <h2>{recipe.strDrink}</h2>
+          {/* Renderização das informações da receita */}
+        </div>
+      ))}
     </div>
   );
 }

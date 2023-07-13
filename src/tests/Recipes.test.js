@@ -1,148 +1,170 @@
-import React from 'react';
-import { render, screen, act } from '@testing-library/react';
+import { render, screen, waitFor, fireEvent } from '@testing-library/react';
+import { BrowserRouter as Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
-import thunk from 'redux-thunk';
 import Recipes from '../pages/Recipes/Recipes';
-import rootReducer from '../redux/reducer';
-import { fetchMealOrDrink, fetchCategories, fetchFilterCategory } from '../services';
-import { actionSaveRecipes, actionSaveCategories } from '../redux/action';
+import { fetchCategories, fetchFilterCategory, fetchMealOrDrink } from '../services';
+import store from '../redux/store';
 
 jest.mock('../services');
-jest.mock('../redux/action');
 
-const mockState = {
-  recipe: {
-    recipes: [],
-    categories: [],
-  },
-};
+describe('Recipes', () => {
+  const recipeType = 'drinks';
 
-const mockStore = createStore(rootReducer, mockState, applyMiddleware(thunk));
-
-describe('Componente Recipes', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  test('renderiza os cards de receitas', async () => {
+  test('renderiza corretamente as categorias', async () => {
+    const categories = [
+      { strCategory: 'Ordinary Drink' },
+      { strCategory: 'Cocktail' },
+      { strCategory: 'Shake' },
+      { strCategory: 'Other / Unknown' },
+      { strCategory: 'Cocoa' },
+      { strCategory: 'Shot' },
+      { strCategory: 'Coffee / Tea' },
+      { strCategory: 'Homemade Liqueur' },
+      { strCategory: 'Punch / Party Drink' },
+      { strCategory: 'Beer' },
+      { strCategory: 'Soft Drink' },
+    ];
+
+    fetchCategories.mockResolvedValue(categories);
+
+    render(
+      <Provider store={ store }>
+        <Router>
+          <Recipes recipeType={ recipeType } />
+        </Router>
+      </Provider>,
+    );
+
+    await waitFor(() => {
+      const categoryButtons = screen.getAllByTestId(/-category-filter$/);
+      expect(categoryButtons).toHaveLength(categories.length);
+      expect(categoryButtons[0]).toHaveTextContent('Ordinary Drink');
+    });
+  });
+
+  test('exibe todas as receitas ao clicar no botão "All"', async () => {
     const recipes = [
       {
         idDrink: '15997',
         strDrink: 'GG',
+        strCategory: 'Ordinary Drink',
+        strAlcoholic: 'Optional alcohol',
+        strGlass: 'Collins Glass',
+        strInstructions: 'Pour the Galliano liqueur over ice...',
         strDrinkThumb: 'https://www.thecocktaildb.com/images/media/drink/vyxwut1468875960.jpg',
       },
       {
         idDrink: '17222',
         strDrink: 'A1',
+        strCategory: 'Ordinary Drink',
+        strAlcoholic: 'Alcoholic',
+        strGlass: 'Cocktail glass',
+        strInstructions: 'Pour all ingredients into a cocktail shaker...',
         strDrinkThumb: 'https://www.thecocktaildb.com/images/media/drink/2x8thr1504816928.jpg',
       },
     ];
 
     fetchMealOrDrink.mockResolvedValue(recipes);
 
-    await act(async () => {
-      render(
-        <Provider store={ mockStore }>
-          <Recipes recipeType="drinks" />
-        </Provider>,
-      );
+    render(
+      <Provider store={ store }>
+        <Router>
+          <Recipes recipeType={ recipeType } />
+        </Router>
+      </Provider>,
+    );
+
+    await waitFor(() => {
+      const allButton = screen.getByTestId('All-category-filter');
+      fireEvent.click(allButton);
     });
 
-    expect(fetchMealOrDrink).toHaveBeenCalledWith('drinks');
-    expect(actionSaveRecipes).toHaveBeenCalledWith(recipes);
-    expect(screen.getByTestId('0-recipe-card')).toBeInTheDocument();
-    expect(screen.getByTestId('1-recipe-card')).toBeInTheDocument();
+    await waitFor(() => {
+      const recipeCards = screen.getAllByTestId(/-recipe-card$/);
+      expect(recipeCards).toHaveLength(recipes.length);
+    });
   });
 
-  test('renderiza os filtros de categorias', async () => {
+  test('filtra as receitas por categoria', async () => {
     const categories = [
       { strCategory: 'Ordinary Drink' },
       { strCategory: 'Cocktail' },
-      { strCategory: 'Shot' },
+    ];
+
+    const filteredRecipes = [
+      {
+        idDrink: '15997',
+        strDrink: 'GG',
+        strCategory: 'Ordinary Drink',
+        strAlcoholic: 'Optional alcohol',
+        strGlass: 'Collins Glass',
+        strInstructions: 'Pour the Galliano liqueur over ice...',
+        strDrinkThumb: 'https://www.thecocktaildb.com/images/media/drink/vyxwut1468875960.jpg',
+      },
     ];
 
     fetchCategories.mockResolvedValue(categories);
-
-    await act(async () => {
-      render(
-        <Provider store={ mockStore }>
-          <Recipes recipeType="drinks" />
-        </Provider>,
-      );
-    });
-
-    expect(fetchCategories).toHaveBeenCalledWith('drinks');
-    expect(actionSaveCategories).toHaveBeenCalledWith(categories);
-    expect(screen.getByTestId('Category-1-category-filter')).toBeInTheDocument();
-    expect(screen.getByTestId('Category-2-category-filter')).toBeInTheDocument();
-    expect(screen.getByTestId('Category-3-category-filter')).toBeInTheDocument();
-  });
-
-  test('ao clicar em um filtro de categoria, chama as ações corretas', async () => {
-    const category = 'Ordinary Drink';
-    const filteredRecipes = [
-      {
-        idDrink: '17225',
-        strDrink: 'Ace',
-        strDrinkThumb: 'https://www.thecocktaildb.com/images/media/drink/l3cd7f1504818306.jpg',
-      },
-      {
-        idDrink: '14229',
-        strDrink: '747',
-        strDrinkThumb: 'https://www.thecocktaildb.com/images/media/drink/xxsxqy1472668106.jpg',
-      },
-    ];
-
     fetchFilterCategory.mockResolvedValue(filteredRecipes);
 
-    await act(async () => {
-      render(
-        <Provider store={ mockStore }>
-          <Recipes recipeType="drinks" />
-        </Provider>,
-      );
+    render(
+      <Provider store={ store }>
+        <Router>
+          <Recipes recipeType={ recipeType } />
+        </Router>
+      </Provider>,
+    );
+
+    await waitFor(() => {
+      const categoryButtons = screen.getAllByTestId(/-category-filter$/);
+      const cocktailButton = categoryButtons.find((button) => button.textContent === 'Cocktail');
+      fireEvent.click(cocktailButton);
     });
 
-    const categoryFilterButton = screen.getByTestId('Category-1-category-filter');
-    await act(async () => {
-      categoryFilterButton.click();
+    await waitFor(() => {
+      const recipeCards = screen.getAllByTestId(/-recipe-card$/);
+      expect(recipeCards).toHaveLength(filteredRecipes.length);
     });
-
-    expect(fetchFilterCategory).toHaveBeenCalledWith('drinks', category);
-    expect(actionSaveRecipes).toHaveBeenCalledWith(filteredRecipes);
   });
 
-  test('ao clicar no filtro "All", chama as ações corretas', async () => {
-    const allRecipes = [
+  test('chama corretamente a função handleCategoryClick', async () => {
+    const categories = [
+      { strCategory: 'Ordinary Drink' },
+      { strCategory: 'Cocktail' },
+    ];
+
+    const filteredRecipes = [
       {
-        idDrink: '17203',
-        strDrink: 'Kir',
-        strDrinkThumb: 'https://www.thecocktaildb.com/images/media/drink/apneom1504370294.jpg',
-      },
-      {
-        idDrink: '13501',
-        strDrink: 'ABC',
-        strDrinkThumb: 'https://www.thecocktaildb.com/images/media/drink/tqpvqp1472668328.jpg',
+        idDrink: '17222',
+        strDrink: 'A1',
+        strCategory: 'Cocktail',
+        strAlcoholic: 'Alcoholic',
+        strGlass: 'Cocktail glass',
+        strInstructions: 'Pour all ingredients into a cocktail shaker...',
+        strDrinkThumb: 'https://www.thecocktaildb.com/images/media/drink/2x8thr1504816928.jpg',
       },
     ];
 
-    fetchMealOrDrink.mockResolvedValue(allRecipes);
+    fetchCategories.mockResolvedValue(categories);
+    fetchFilterCategory.mockResolvedValue(filteredRecipes);
 
-    await act(async () => {
-      render(
-        <Provider store={ mockStore }>
-          <Recipes recipeType="drinks" />
-        </Provider>,
-      );
+    render(
+      <Provider store={ store }>
+        <Router>
+          <Recipes recipeType={ recipeType } />
+        </Router>
+      </Provider>,
+    );
+
+    await waitFor(() => {
+      const categoryButtons = screen.getAllByTestId(/-category-filter$/);
+      const cocktailButton = categoryButtons.find((button) => button.textContent === 'Cocktail');
+      fireEvent.click(cocktailButton);
     });
 
-    const allCategoryFilterButton = screen.getByTestId('All-category-filter');
-    await act(async () => {
-      allCategoryFilterButton.click();
-    });
-
-    expect(fetchMealOrDrink).toHaveBeenCalledWith('drinks');
-    expect(actionSaveRecipes).toHaveBeenCalledWith(allRecipes);
+    expect(fetchFilterCategory).toHaveBeenCalledWith('Cocktail', recipeType);
   });
 });
