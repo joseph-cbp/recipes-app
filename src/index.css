@@ -33,3 +33,7 @@ button {
   background: none;
   border: none;
 }
+
+body a {
+  text-decoration: none;
+}
