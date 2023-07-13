@@ -33,7 +33,7 @@ export default function RecipeProgressHeader({ recipe }) {
       <img data-testid="recipe-photo" src={ image } alt={ name } />
       <div className="progress-header-content">
         <div>
-          <Icon name={ iconName } border />
+          <Icon name={ iconName } border buttonType />
           <span data-testid="recipe-category">{category}</span>
         </div>
         <div>

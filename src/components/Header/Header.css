@@ -88,7 +88,7 @@
   text-align: center;
 }
 
-.header-filters > div {
+.header-filters > button {
   align-items: center;
   display: flex;
   flex-direction: column;

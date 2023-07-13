@@ -25,10 +25,10 @@ const icons = {
   chicken,
   breakfast,
   dessert,
-  ordinaryDrink,
+  'ordinary drink': ordinaryDrink,
   cocktail,
   shake,
-  otherDrink,
+  'other / unknown': otherDrink,
   cocoa,
   fastFood,
   done,
@@ -43,11 +43,12 @@ const alts = {
 
 export default function Icon({ name, border = false, large = false }) {
   const classNames = [border ? 'icon-border' : '', large ? 'large' : ''].join(' ');
+
   return (
     <div className={ classNames }>
       <img
-        src={ icons[name] || meal }
-        alt={ alts[name] }
+        src={ icons[name.toLowerCase()] || meal }
+        alt={ alts[name.toLowerCase()] }
         className={ large ? 'large' : '' }
       />
     </div>
