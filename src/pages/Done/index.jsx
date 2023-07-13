@@ -6,38 +6,53 @@ import './Done.css';
 import Share from '../../components/Header/Share';
 
 const filters = [
-  { name: 'All', icon: 'fastfood', testid: 'filter-by-all-btn' },
-  { name: 'Food', icon: 'meal', testid: 'filter-by-meal-btn' },
-  { name: 'Drinks', icon: 'drink', testid: 'filter-by-drink-btn' },
+  { name: 'All', icon: 'fastfood', testid: 'filter-by-all-btn', type: 'all' },
+  { name: 'Food', icon: 'meal', testid: 'filter-by-meal-btn', type: 'meal' },
+  { name: 'Drinks', icon: 'drink', testid: 'filter-by-drink-btn', type: 'drink' },
 ];
 
 function Done() {
   const [recipes, setRecipes] = useState([]);
+  const [filter, setFilter] = useState('all');
 
   useEffect(() => {
     setRecipes(getDoneRecipes());
   }, []);
-  console.log(recipes);
+
+  const filteredRecipes = recipes.filter(({ type }) => (
+    filter === 'all'
+      ? true
+      : type === filter
+  ));
 
   return (
     <div>
       <div className="header-filters">
-        {filters.map(({ name, icon, testid }) => (
-          <button key={ name } data-testid={ testid }>
+        {filters.map(({ name, icon, testid, type }) => (
+          <button key={ name } data-testid={ testid } onClick={ () => setFilter(type) }>
             <Icon name={ icon } large border />
             <span>{name}</span>
           </button>
         ))}
       </div>
       <div className="done-recipes">
-        {recipes.map(
-          ({ name, image, doneDate, tags, nationality, category, id, type, alcoholicOrNot }, index) => (
+        {filteredRecipes.map(
+          (
+            {
+              name,
+              image,
+              doneDate,
+              tags,
+              nationality,
+              category,
+              id,
+              type,
+              alcoholicOrNot,
+            },
+            index,
+          ) => (
             <div key={ name } className="done-card">
-              <img
-                data-testid={ `${index}-horizontal-image` }
-                src={ image }
-                alt={ name }
-              />
+              <img data-testid={ `${index}-horizontal-image` } src={ image } alt={ name } />
               <div className="done-card-content">
                 <div>
                   <div className="done-card-title">
@@ -55,9 +70,7 @@ function Done() {
                     {` ${alcoholicOrNot || nationality}  - ${category} `}
                   </span>
                 </div>
-                <span
-                  className="done-card-time"
-                >
+                <span className="done-card-time">
                   {'Done in '}
                   <span data-testid={ `${index}-horizontal-done-date` }>{doneDate}</span>
                 </span>
