@@ -21,7 +21,6 @@ function Recipes({ recipeType }) {
     const fetchRecipes = async () => {
       const menuData = await fetchMealOrDrink(recipeType);
       const categoryData = await fetchCategories(recipeType);
-      console.log(categoryData);
       dispatch(actionSaveRecipes(menuData));
       dispatch(actionSaveCategories(categoryData));
     };
@@ -43,7 +42,6 @@ function Recipes({ recipeType }) {
       await toAllRecipes();
     }
   };
-
   return (
     <div className="recipes">
       <div className="header-filters">

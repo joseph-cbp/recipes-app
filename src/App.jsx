@@ -3,13 +3,13 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Route, Switch } from 'react-router-dom';
 import Login from './pages/Login';
-import Layout from './pages/Layout';
 import Done from './pages/Done';
 import Favorites from './pages/Favorites';
 import RecipeDetails from './pages/RecipeDetails/index';
 import Profile from './pages/Profile';
 import Recipes from './pages/Recipes/Recipes';
 import RecipeProgress from './pages/RecipeProgress';
+import Layout from './pages/Layout';
 
 function App() {
   return (
