@@ -1,13 +1,14 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import Footer from '../../components/Footer';
 import iconDone from '../../images/icon-done.png';
 import iconFavorite from '../../images/icon-favorite.png';
+import iconExit from '../../images/icon-exit.png';
+import getLocalStorage from '../../utils/localStorage';
+import './Profile.css';
 
 function Profile() {
   const history = useHistory();
-  const getUser = localStorage.getItem('user');
-  const localUser = JSON.parse(getUser);
+  const localUser = getLocalStorage.getItem('user');
   const username = localUser ? localUser.email : '';
 
   const handleClickLogout = () => {
@@ -16,10 +17,8 @@ function Profile() {
   };
 
   return (
-    <div>
+    <div className="login">
       <h4 data-testid="profile-email">{ username }</h4>
-      <hr />
-      <br />
       <button
         type="button"
         data-testid="profile-done-btn"
@@ -32,7 +31,6 @@ function Profile() {
         Done Recipes
       </button>
       <hr />
-      <br />
       <button
         type="button"
         data-testid="profile-favorite-btn"
@@ -45,15 +43,14 @@ function Profile() {
         Favorite Recipes
       </button>
       <hr />
-      <br />
       <button
         type="button"
         data-testid="profile-logout-btn"
         onClick={ handleClickLogout }
       >
+        <img src={ iconExit } alt="logout" />
         Logout
       </button>
-      <Footer />
     </div>
   );
 }
