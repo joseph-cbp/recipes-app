@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import clipBoardCopy from 'clipboard-copy';
 
 import './Share.css';
-import shareIcon from '../../../images/share.png';
-import shareCypressIcon from '../../../images/shareIcon.svg';
+import shareIcon from '../../images/share.png';
+import shareCypressIcon from '../../images/shareIcon.svg';
 
 const oneSecond = 1000;
 export default function Share({ id, type, 'data-testid': testid }) {

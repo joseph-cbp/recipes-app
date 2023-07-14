@@ -3,12 +3,12 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Route, Switch } from 'react-router-dom';
 import Login from './pages/Login';
-import Done from './pages/Done';
+import DoneRecipes from './pages/DoneRecipes';
 import Favorites from './pages/Favorites';
 import RecipeDetails from './pages/RecipeDetails/index';
 import Profile from './pages/Profile';
 import Recipes from './pages/Recipes/Recipes';
-import RecipeProgress from './pages/RecipeProgress';
+import RecipeInProgress from './pages/RecipeInProgress';
 import Layout from './pages/Layout';
 
 function App() {
@@ -21,7 +21,7 @@ function App() {
       />
       <Route
         path="/meals/:id/in-progress"
-        component={ RecipeProgress }
+        component={ RecipeInProgress }
       />
       <Route
         path="/meals/:id"
@@ -43,7 +43,7 @@ function App() {
       />
       <Route
         path="/drinks/:id/in-progress"
-        component={ RecipeProgress }
+        component={ RecipeInProgress }
       />
       <Route
         path="/drinks/:id"
@@ -71,7 +71,7 @@ function App() {
             pageIcon="done"
             filter="all"
           >
-            <Done />
+            <DoneRecipes />
           </Layout>
         ) }
       />
