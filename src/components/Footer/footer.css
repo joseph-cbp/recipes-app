@@ -12,6 +12,11 @@
   width: 100%;
 }
 
+.footerCypress {
+  bottom: 0;
+  position: fixed;
+}
+
 .footerFixed img:last-child {
   height: 1px;
   width: 1px;
