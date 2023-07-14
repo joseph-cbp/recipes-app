@@ -1,0 +1,29 @@
+.login {
+  margin: 0 auto;
+
+  /* align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; */
+  text-align: center;
+  width: 290px;
+}
+
+.login h4 {
+  color: #1a1b1c;
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 48px;
+}
+
+.login button {
+  align-items: center;
+  color: #797d86;
+  display: flex;
+  font-size: 16px;
+  font-weight: 500;
+  gap: 22px;
+  letter-spacing: 0.5px;
+  margin: 25px 32px;
+  text-transform: capitalize;
+}
