@@ -26,8 +26,10 @@ function SearchBar() {
       return;
     }
     const recipeType = pathname.replace(/\//, '');
+
     const recipes = await fetchSearch(searchInput, typeInput, recipeType);
-    if (!recipes) {
+
+    if (!recipes || recipes.length === 0) {
       global.alert('Sorry, we haven\'t found any recipes for these filters.');
       return;
     }

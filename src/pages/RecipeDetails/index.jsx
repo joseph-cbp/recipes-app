@@ -15,10 +15,10 @@ function RecipeDetails() {
     };
     getRecipe();
   }, [location]);
-
+  const { strMeal, strDrink } = recipe;
   return (
     <div>
-      <p>{console.log(recipe)}</p>
+      {strMeal || strDrink}
     </div>
   );
 }

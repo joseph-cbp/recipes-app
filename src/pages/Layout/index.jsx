@@ -4,7 +4,7 @@ import Footer from '../../components/Footer';
 
 function Layout({
   children,
-  search,
+  search = false,
   pageTitle,
   filter = '',
   pageIcon = '',
@@ -18,7 +18,9 @@ function Layout({
         filter={ filter }
         pageIcon={ pageIcon }
       />
-      {children}
+      <main>
+        {children}
+      </main>
       {footer && <Footer />}
     </>
   );
@@ -28,7 +30,7 @@ export default Layout;
 
 Layout.propTypes = {
   children: PropTypes.node.isRequired,
-  search: PropTypes.bool.isRequired,
+  search: PropTypes.bool,
   pageTitle: PropTypes.string.isRequired,
   footer: PropTypes.bool,
   filter: PropTypes.oneOf(['meal', 'drink', 'all']),

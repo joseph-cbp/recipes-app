@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
+import { act } from 'react-dom/test-utils';
 import Footer from '../components/Footer';
 
 describe('Footer component', () => {
@@ -24,7 +25,9 @@ describe('Footer component', () => {
     );
 
     const drinksButton = screen.getByTestId('drinks-bottom-btn');
-    drinksButton.click();
+    act(() => {
+      drinksButton.click();
+    });
 
     expect(window.location.pathname).toBe('/drinks');
   });
@@ -37,7 +40,9 @@ describe('Footer component', () => {
     );
 
     const mealsButton = screen.getByTestId('meals-bottom-btn');
-    mealsButton.click();
+    act(() => {
+      mealsButton.click();
+    });
 
     expect(window.location.pathname).toBe('/meals');
   });

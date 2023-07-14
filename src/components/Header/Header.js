@@ -47,7 +47,7 @@ function Header({ search = false, pageTitle, pageIcon }) {
 export default Header;
 
 Header.propTypes = {
-  search: PropTypes.bool.isRequired,
+  search: PropTypes.bool,
   pageTitle: PropTypes.string.isRequired,
   pageIcon: PropTypes.oneOf(['meal', 'drink', 'done', 'favorite', 'profile']).isRequired,
 };
