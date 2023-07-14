@@ -4,7 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
 import { act } from 'react-dom/test-utils';
 import Login from '../pages/Login';
-import renderWithRouterAndRedux from '../services/renderWithRouterAndRedux';
+import renderWithRouterAndRedux from './helpers/renderWithRouterAndRedux';
 
 describe('Componente Login', () => {
   test('renderiza o formulário de login corretamente', () => {

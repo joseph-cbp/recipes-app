@@ -2,8 +2,8 @@ import React from 'react';
 import { screen, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import App from '../App';
-import renderWithRouterAndRedux from '../services/renderWithRouterAndRedux';
 import Header from '../components/Header/Header';
+import renderWithRouterAndRedux from './helpers/renderWithRouterAndRedux';
 
 const getSearchTopBtn = () => screen.getByTestId('search-top-btn');
 const querySearchtopBtn = () => screen.queryByTestId('search-top-btn');

@@ -3,8 +3,8 @@ import { screen, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { wait } from '@testing-library/user-event/dist/utils';
 import App from '../App';
-import renderWithRouterAndRedux from '../services/renderWithRouterAndRedux';
 import recipeMock from './recipeMock';
+import renderWithRouterAndRedux from './helpers/renderWithRouterAndRedux';
 
 const getSearchTopBtn = () => screen.getByTestId('search-top-btn');
 const getSearchInput = () => screen.getByTestId('search-input');
