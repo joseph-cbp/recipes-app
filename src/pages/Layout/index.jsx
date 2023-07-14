@@ -18,7 +18,9 @@ function Layout({
         filter={ filter }
         pageIcon={ pageIcon }
       />
-      {children}
+      <main>
+        {children}
+      </main>
       {footer && <Footer />}
     </>
   );
