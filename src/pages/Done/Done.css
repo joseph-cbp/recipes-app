@@ -1,0 +1,77 @@
+.done-card {
+  border: 0.5px solid #b1b1b1;
+  border-radius: 5px;
+  display: flex;
+  height: 135px;
+  margin: 0 auto;
+  margin-bottom: 16px;
+  max-width: 320px;
+  overflow: hidden;
+  width: 100%;
+}
+
+.done-card > * {
+  flex: 1;
+}
+
+.done-card > a > img {
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+
+.done-card-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 18px 18px 14px;
+}
+
+.done-card-content > div:first-child {
+  display: flex;
+  flex-direction: column;
+}
+
+.done-card-title {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.done-card-title button {
+  align-items: center;
+  display: flex;
+}
+
+.done-card-title > a {
+  color: #1a1b1c;
+  font-size: 12px;
+  font-weight: 700;
+  margin: 0;
+  text-decoration: none;
+}
+
+.done-card-subtitle {
+  color: #797d86;
+  font-size: 9px;
+  font-weight: 300;
+}
+
+.done-card-time {
+  color: #1a1b1c;
+  font-size: 9px;
+  font-weight: 400;
+}
+
+.done-card-tags {
+  display: flex;
+  gap: 8px;
+}
+
+.done-card-tags > span {
+  background: #d9d9d9;
+  border-radius: 10px;
+  color: #797d86;
+  font-size: 9px;
+  padding: 3px 8px;
+}

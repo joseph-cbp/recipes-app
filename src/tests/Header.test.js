@@ -47,34 +47,6 @@ describe('Testes para o Header', () => {
     expect(getProfileBtn()).toBeInTheDocument();
   });
 
-  // it('Verifica se o botão search exibe o input de pesquisa ao ser clicado atraves da rota meals', () => {
-  //   renderWithRouterAndRedux(<App />, undefined, '/meals');
-
-  //   const searchTopBtn = screen.getByTestId('search-top-btn');
-  //   act(() => {
-  //     userEvent.click(searchTopBtn);
-  //   });
-
-  //   const searchInput = screen.getByTestId('search-input');
-
-  //   expect(searchTopBtn).toBeInTheDocument();
-  //   expect(searchInput).toBeInTheDocument();
-  // });
-
-  // it('Verifica se o botão search exibe o input de pesquisa ao ser clicado atraves da rota drinks', () => {
-  //   renderWithRouterAndRedux(<App />, undefined, '/drinks');
-
-  //   const searchTopBtn = screen.getByTestId('search-top-btn');
-  //   act(() => {
-  //     userEvent.click(searchTopBtn);
-  //   });
-
-  //   const searchInput = screen.getByTestId('search-input');
-
-  //   expect(searchTopBtn).toBeInTheDocument();
-  //   expect(searchInput).toBeInTheDocument();
-  // });
-
   it('Verifica se o botão search oculta o input de pesquisa ao ser clicado novamente através da rota meals', () => {
     renderWithRouterAndRedux(<App />, undefined, '/meals');
 
@@ -124,7 +96,7 @@ describe('Testes para o Header', () => {
   });
 
   it('Deveria renderizar o header sem a search bar', () => {
-    renderWithRouterAndRedux(<Header pageTitle="test" />);
+    renderWithRouterAndRedux(<Header pageTitle="test" pageIcon="meal" />);
     expect(querySearchtopBtn()).not.toBeInTheDocument();
   });
 });

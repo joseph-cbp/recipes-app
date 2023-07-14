@@ -3,14 +3,13 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Route, Switch } from 'react-router-dom';
 import Login from './pages/Login';
-import Layout from './pages/Layout';
-import Meals from './pages/Meals';
 import Done from './pages/Done';
-import Drinks from './pages/Drinks';
 import Favorites from './pages/Favorites';
-import MealDetails from './pages/MealDetails';
-import DrinkDetails from './pages/DrinkDetails';
+import RecipeDetails from './pages/RecipeDetails/index';
 import Profile from './pages/Profile';
+import Recipes from './pages/Recipes/Recipes';
+import RecipeProgress from './pages/RecipeProgress';
+import Layout from './pages/Layout';
 
 function App() {
   return (
@@ -21,19 +20,34 @@ function App() {
         component={ Login }
       />
       <Route
+        path="/meals/:id/in-progress"
+        component={ RecipeProgress }
+      />
+      <Route
+        path="/meals/:id"
+        component={ RecipeDetails }
+      />
+      <Route
         path="/meals"
         render={ () => (
           <Layout
             search
+            footer
             pageTitle="Meals"
+            filter="meal"
+            pageIcon="meal"
           >
-            <Meals />
+            <Recipes recipeType="meals" />
           </Layout>
         ) }
       />
       <Route
-        path="/meals/:id"
-        component={ MealDetails }
+        path="/drinks/:id/in-progress"
+        component={ RecipeProgress }
+      />
+      <Route
+        path="/drinks/:id"
+        component={ RecipeDetails }
       />
       <Route
         path="/drinks"
@@ -41,20 +55,21 @@ function App() {
           <Layout
             search
             pageTitle="Drinks"
+            footer
+            filter="drink"
+            pageIcon="drink"
           >
-            <Drinks />
+            <Recipes recipeType="drinks" />
           </Layout>
         ) }
-      />
-      <Route
-        path="/drinks/:id"
-        component={ DrinkDetails }
       />
       <Route
         path="/done-recipes"
         render={ () => (
           <Layout
             pageTitle="Done Recipes"
+            pageIcon="done"
+            filter="all"
           >
             <Done />
           </Layout>
@@ -65,6 +80,8 @@ function App() {
         render={ () => (
           <Layout
             pageTitle="Favorite Recipes"
+            pageIcon="favorite"
+            filter="all"
           >
             <Favorites />
           </Layout>
@@ -74,7 +91,9 @@ function App() {
         path="/profile"
         render={ () => (
           <Layout
+            footer
             pageTitle="Profile"
+            pageIcon="profile"
           >
             <Profile />
           </Layout>

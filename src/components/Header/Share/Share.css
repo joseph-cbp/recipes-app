@@ -1,0 +1,17 @@
+.share-recipe {
+  position: relative;
+}
+
+.share-recipe > div {
+  background: #292a2d;
+  border: 1px solid #2e3238;
+  border-radius: 8px;
+  color: white;
+  font-size: 14px;
+  left: -10px;
+  padding: 8px 0;
+  position: absolute;
+  text-align: center;
+  transform: translate(-100%, -10px);
+  width: 90px;
+}

@@ -1,7 +1,10 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
+import userEvent from '@testing-library/user-event';
+import { act } from 'react-dom/test-utils';
 import Login from '../pages/Login';
+import renderWithRouterAndRedux from '../services/renderWithRouterAndRedux';
 
 describe('Componente Login', () => {
   test('renderiza o formulário de login corretamente', () => {
@@ -18,31 +21,20 @@ describe('Componente Login', () => {
   });
 
   test('manipula o envio do formulário corretamente', () => {
-    const mockPush = jest.fn();
-    const mockSetItem = jest.spyOn(window.localStorage, 'setItem');
-    jest.mock('react-router-dom', () => ({
-      useHistory: () => ({
-        push: mockPush,
-      }),
-    }));
-
-    render(
-      <BrowserRouter>
-        <Login />
-      </BrowserRouter>,
-    );
+    const { history } = renderWithRouterAndRedux(<Login />, undefined, '/login');
 
     const emailInput = screen.getByTestId('email-input');
     const passwordInput = screen.getByTestId('password-input');
     const submitButton = screen.getByTestId('login-submit-btn');
+    act(() => {
+      userEvent.type(emailInput, 'test@example.com');
+      userEvent.type(passwordInput, 'password123');
+      userEvent.click(submitButton);
+    });
 
-    fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
-    fireEvent.change(passwordInput, { target: { value: 'password123' } });
-    fireEvent.click(submitButton);
+    const savedEmail = localStorage.getItem('user');
+    expect(savedEmail).toBe(JSON.stringify({ email: 'test@example.com' }));
 
-    expect(mockSetItem).toHaveBeenCalledWith('user', JSON.stringify({ email: 'test@example.com' }));
-    expect(mockPush).toHaveBeenCalledWith('/meals');
-
-    mockSetItem.mockRestore();
+    expect(history.location.pathname).toBe('/meals');
   });
 });

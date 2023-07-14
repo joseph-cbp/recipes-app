@@ -1,13 +1,39 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: Epilogue, sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+body .btn-primary {
+  color: white;
+  width: 100%;
+  --bs-btn-bg: #fcc436;
+  --bs-btn-border-color: #fcc436;
+  --bs-btn-hover-bg: #d59c0b;
+  --bs-btn-hover-border-color: #cd950a;
+  --bs-btn-active-bg: #cd950a;
+  --bs-btn-active-border-color: #bd8a0a;
+  --bs-btn-disabled-bg: #fcc436;
+  --bs-btn-disabled-border-color: #fdb90d;
+}
+
+input[type='radio'] {
+  accent-color: #fcc436;
+}
+
+button {
+  background: none;
+  border: none;
+}
+
+body a {
+  text-decoration: none;
 }

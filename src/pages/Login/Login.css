@@ -1,0 +1,62 @@
+.login-header {
+  align-items: center;
+  background-color: #41197f;
+  display: flex;
+  flex-direction: column;
+  height: 50vh;
+  justify-content: center;
+  text-align: center;
+}
+
+.login-form {
+  gap: 9px;
+  margin: 0 auto;
+  max-width: 360px;
+  padding: 0 42px;
+  width: 100%;
+}
+
+.login-form h1 {
+  color: #41197f;
+  font-size: 20px;
+  font-style: italic;
+  font-weight: 500;
+  letter-spacing: 3.3px;
+  line-height: normal;
+  margin: 50px 0 18px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.login-form .form-control {
+  margin-bottom: 9px;
+}
+
+.login-header-tomate {
+  display: none;
+}
+
+@media screen and ( max-width : 360px ) {
+
+  .login-form {
+    margin: 130px auto 0;
+  }
+
+  .login-header {
+    height: auto;
+  }
+
+  .login-header > .logo {
+    margin-top: 80px;
+  }
+
+  .login-header-tomate {
+    display: block;
+    margin-bottom: -45%;
+  }
+
+  .login-header-tomate > img {
+    height: 100%;
+    width: 100%;
+  }
+}

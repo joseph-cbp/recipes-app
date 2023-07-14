@@ -6,8 +6,26 @@ export const fetchSearch = async (search, type, recipeType) => {
     ingredient: 'filter.php?i=',
     name: 'search.php?s=',
     firstLetter: 'search.php?f=',
+    categories: 'list.php?c=list',
+    categoryFilter: 'filter.php?c=',
+    id: 'lookup.php?i=',
   };
   const url = `${baseURL}${types[type]}${search}`;
-  const result = await fetch(url).then((r) => r.json())
+  const result = await fetch(url).then((r) => r.json());
   return result[recipeType];
 };
+
+export const fetchMealOrDrink = async (recipeType) => fetchSearch('', 'name', recipeType);
+
+export const fetchRecipeById = async (id, recipeType) => {
+  const result = await fetchSearch(id, 'id', recipeType);
+  return result[0];
+};
+
+export const fetchCategories = async (type) => fetchSearch('', 'categories', type);
+
+export const fetchFilterCategory = async (type, category) => fetchSearch(
+  category,
+  'categoryFilter',
+  type,
+);
