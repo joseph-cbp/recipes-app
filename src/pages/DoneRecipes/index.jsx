@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 
 import Icon from '../../components/Icon';
 import { getDoneRecipes } from '../../utils/localStorage';
-import './Done.css';
-import Share from '../../components/Header/Share';
+import './DoneRecipes.css';
+import Share from '../../components/Share';
 
 const filters = [
   { name: 'All', icon: 'fastfood', testid: 'filter-by-all-btn', type: 'all' },
@@ -12,7 +12,7 @@ const filters = [
   { name: 'Drinks', icon: 'drink', testid: 'filter-by-drink-btn', type: 'drink' },
 ];
 
-function Done() {
+function DoneRecipes() {
   const [recipes, setRecipes] = useState([]);
   const [filter, setFilter] = useState('all');
 
@@ -99,4 +99,4 @@ function Done() {
   );
 }
 
-export default Done;
+export default DoneRecipes;

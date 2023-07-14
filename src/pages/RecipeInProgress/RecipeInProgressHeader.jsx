@@ -7,9 +7,9 @@ import favoriteIconFull from '../../images/favoriteFull.png';
 import blackHeartIcon from '../../images/blackHeartIcon.svg';
 import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
 import { favoriteRecipe, isRecipeFavorite } from '../../utils/localStorage';
-import Share from '../../components/Header/Share';
+import Share from '../../components/Share';
 
-export default function RecipeProgressHeader({ recipe }) {
+export default function RecipeInProgressHeader({ recipe }) {
   const [isFavorite, setIsFavorite] = useState(isRecipeFavorite(recipe.id));
 
   const handleFavorite = () => {
@@ -48,7 +48,7 @@ export default function RecipeProgressHeader({ recipe }) {
   );
 }
 
-RecipeProgressHeader.propTypes = {
+RecipeInProgressHeader.propTypes = {
   recipe: PropTypes.shape({
     image: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,

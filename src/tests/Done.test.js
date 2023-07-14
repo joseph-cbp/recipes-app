@@ -1,7 +1,7 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { act } from 'react-dom/test-utils';
-import Done from '../pages/Done';
+import DoneRecipes from '../pages/DoneRecipes';
 import renderWithRouter from './helpers/renderWithRouter';
 
 const doneRecipesMock = [
@@ -42,7 +42,7 @@ describe('<Done />', () => {
   });
 
   it('Deveria renderizar todas as receitas corretamente', async () => {
-    renderWithRouter(<Done />);
+    renderWithRouter(<DoneRecipes />);
     expect(screen.getByTestId('0-horizontal-image')).toHaveAttribute('src', 'recipe1.jpg');
     expect(screen.getByTestId('0-horizontal-name')).toHaveAttribute('href', '/meals/recipe1');
     expect(screen.getByTestId('0-horizontal-name')).toHaveTextContent('Recipe 1');
@@ -53,7 +53,7 @@ describe('<Done />', () => {
     expect(screen.getByTestId('0-tag2-horizontal-tag')).toHaveTextContent('tag2');
   });
   it('Deveria renderizar receitas filtradas por drink', () => {
-    renderWithRouter(<Done />);
+    renderWithRouter(<DoneRecipes />);
     const drinkFilter = screen.getByTestId('filter-by-drink-btn');
     act(() => {
       userEvent.click(drinkFilter);
@@ -62,7 +62,7 @@ describe('<Done />', () => {
     expect(screen.queryByText('Recipe 1')).not.toBeInTheDocument();
   });
   it('Deveria renderizar receitas filtradas por meal', () => {
-    renderWithRouter(<Done />);
+    renderWithRouter(<DoneRecipes />);
     const mealFilter = screen.getByTestId('filter-by-meal-btn');
     act(() => {
       userEvent.click(mealFilter);

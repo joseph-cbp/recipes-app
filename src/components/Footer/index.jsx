@@ -8,9 +8,9 @@ import './footer.css';
 function Footer() {
   return (
     <div
-      data-testid="footer"
       className="footerFixed"
     >
+      <div data-testid="footer" className="footerCypress" />
       <button>
         <Link to="/drinks">
           <img

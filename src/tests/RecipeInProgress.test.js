@@ -1,7 +1,7 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { act } from 'react-dom/test-utils';
-import RecipeProgress from '../pages/RecipeProgress';
+import RecipeInProgress from '../pages/RecipeInProgress';
 import renderWithRouter from './helpers/renderWithRouter';
 import recipeMock from './recipeMock';
 import App from '../App';
@@ -25,7 +25,7 @@ const savedRecipeMock = {
   type: 'drink',
 };
 
-describe('<RecipeProgress />', () => {
+describe('<RecipeInProgress />', () => {
   beforeEach(() => {
     jest.useFakeTimers('modern');
     jest.setSystemTime(new Date(1999, 10, 1));
@@ -38,7 +38,7 @@ describe('<RecipeProgress />', () => {
 
   it('Deveria renderizar a receita corretamente', async () => {
     mockFetch();
-    renderWithRouter(<RecipeProgress />, '/meals/12345/in-progress');
+    renderWithRouter(<RecipeInProgress />, '/meals/12345/in-progress');
     const mockMeal = recipeMock[0];
     const recipePhoto = await screen.findByTestId('recipe-photo');
     expect(global.fetch).toHaveBeenCalledWith(
@@ -83,7 +83,7 @@ describe('<RecipeProgress />', () => {
   });
   it('Deveria ser possível favoritar uma receita e salvar-la no localStorage', async () => {
     mockFetch('drinks', recipeMock.slice().reverse());
-    renderWithRouter(<RecipeProgress />, '/drinks/54321/in-progress');
+    renderWithRouter(<RecipeInProgress />, '/drinks/54321/in-progress');
     const favoriteButton = await screen.findByLabelText('favorite');
     act(() => {
       userEvent.click(favoriteButton);
