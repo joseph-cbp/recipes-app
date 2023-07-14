@@ -1,22 +1,17 @@
-.login {
+.profile {
   margin: 0 auto;
-
-  /* align-items: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: center; */
   text-align: center;
   width: 290px;
 }
 
-.login h4 {
+.profile h4 {
   color: #1a1b1c;
   font-size: 16px;
   font-weight: 700;
   margin-bottom: 48px;
 }
 
-.login button {
+.profile button {
   align-items: center;
   color: #797d86;
   display: flex;

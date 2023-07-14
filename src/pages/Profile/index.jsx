@@ -17,7 +17,7 @@ function Profile() {
   };
 
   return (
-    <div className="login">
+    <div className="profile">
       <h4 data-testid="profile-email">{ username }</h4>
       <button
         type="button"
