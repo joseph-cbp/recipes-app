@@ -34,6 +34,7 @@ export default function RecipeProgressHeader({ recipe }) {
             data-testid="favorite-btn"
             onClick={ handleFavorite }
             src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
+            aria-label={ isFavorite ? 'unfavorite' : 'favorite' }
           >
             <img
               src={ isFavorite ? favoriteIconFull : favoriteIcon }

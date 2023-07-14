@@ -43,7 +43,6 @@ export default function RecipeProgress() {
   const [recipe, setRecipe] = useState({});
   const [ingredientsDone, setIngredientsDone] = useState([]);
   const history = useHistory();
-
   useEffect(() => {
     const [, recipeType, recipeId] = location.pathname.split('/');
     const fetchRecipe = async () => {
@@ -85,9 +84,9 @@ export default function RecipeProgress() {
       <div className="progress-content">
         <div className="progress-ingredients">
           <h3>Ingredients</h3>
-          <ul className="progress-ingredients">
+          <ul>
             {ingredients.map((ingredient, index) => (
-              <li key={ index } data-testid={ `${index}-ingredient-step` } className="">
+              <li key={ index } data-testid={ `${index}-ingredient-step` }>
                 <label>
                   <input
                     type="checkbox"

@@ -20,8 +20,12 @@ export default function Share({ id, type, 'data-testid': testid }) {
 
   return (
     <div className="share-recipe">
-      <div className={ show || 'invisible' }>Link copied!</div>
-      <button data-testid={ testid } onClick={ handleShare } src={ shareCypressIcon }>
+      <div className={ show ? '' : 'invisible' }>Link copied!</div>
+      <button
+        data-testid={ testid }
+        onClick={ handleShare }
+        src={ shareCypressIcon }
+      >
         <img src={ shareIcon } alt="compartilhar receita" />
       </button>
     </div>
